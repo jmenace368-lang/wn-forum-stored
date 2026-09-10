@@ -1,3 +1,4 @@
+
     //  UTILITIES
 
     const $ = s => document.querySelector(s);
@@ -63,7 +64,7 @@
     function escapeHtml(value) {
         return String(value ?? '')
             .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
+            .replace(/\u003c/g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
@@ -90,9 +91,9 @@
 
     function emptyStateHTML(message, actionHtml = '') {
         const action = actionHtml
-            ? `<div style="text-align:center;margin-top:12px;">${actionHtml}</div>`
+            ? `\u003cdiv style="text-align:center;margin-top:12px;">${actionHtml}\u003c/div>`
             : '';
-        return `<h3 style="text-align:center;color:var(--wn-text-muted);">${escapeHtml(message)}</h3>${action}`;
+        return `\u003ch3 style="text-align:center;color:var(--wn-text-muted);">${escapeHtml(message)}\u003c/h3>${action}`;
     }
 
     function statusSlug(status) {
@@ -105,12 +106,12 @@
 
     function getTypeHTML(type) {
         const label = type || 'N/A';
-        return `<span class="type-${escapeHtml(String(label).toLowerCase())}">${escapeHtml(label)}</span>`;
+        return `\u003cspan class="type-${escapeHtml(String(label).toLowerCase())}">${escapeHtml(label)}\u003c/span>`;
     }
 
     function getStatusHTML(status) {
         const label = status || 'N/A';
-        return `<span class="status status-${statusSlug(label)}">${escapeHtml(label)}</span>`;
+        return `\u003cspan class="status status-${statusSlug(label)}">${escapeHtml(label)}\u003c/span>`;
     }
 
     function parseNaturalDate(value) {
@@ -462,12 +463,12 @@
         const affilParts = [];
         if (coalition && coalition.name) {
             affilParts.push(
-                `<div class="roster-affil-coalition">${escapeHtml(coalition.name)}</div>`
+                `\u003cdiv class="roster-affil-coalition">${escapeHtml(coalition.name)}\u003c/div>`
             );
         }
         if (wingValid && wing.name) {
             affilParts.push(
-                `<div class="roster-affil-wing" title="${escapeHtml(wing.name)}">${escapeHtml(wing.name)}</div>`
+                `\u003cdiv class="roster-affil-wing" title="${escapeHtml(wing.name)}">${escapeHtml(wing.name)}\u003c/div>`
             );
         }
 
@@ -482,7 +483,7 @@
     function createRosterSectionRow(label, colCount = 4) {
         const tr = document.createElement('tr');
         tr.className = 'roster-section';
-        tr.innerHTML = `<td colspan="${colCount}">${escapeHtml(label)}</td>`;
+        tr.innerHTML = `\u003ctd colspan="${colCount}">${escapeHtml(label)}\u003c/td>`;
         return tr;
     }
 
@@ -493,22 +494,22 @@
         const partyColor = safeColor(col);
         const isChair = member.rank === 'Chairperson';
         const partyHTML = member.party
-            ? `<span style="color:${partyColor}">●</span> ${escapeHtml(member.party)}`
-            : '<span style="color:#666;font-style:italic;"></span>';
+            ? `\u003cspan style="color:${partyColor}">●\u003c/span> ${escapeHtml(member.party)}`
+            : '\u003cspan style="color:#666;font-style:italic;">\u003c/span>';
 
         let affiliationCell = '';
         if (includeAffiliation) {
             const affil = getRosterMemberAffiliation(member);
             if (affil.coalColor) tr.style.setProperty('--coalition-color', safeColor(affil.coalColor));
             if (affil.wingColor) tr.style.setProperty('--wing-color', safeColor(affil.wingColor));
-            affiliationCell = `<td class="col-affiliation">${affil.html}</td>`;
+            affiliationCell = `\u003ctd class="col-affiliation">${affil.html}\u003c/td>`;
         }
 
         tr.innerHTML = `
-            <td class="col-rank"><span class="roster-rank-badge${isChair ? ' chair' : ''}">${escapeHtml(member.rank || '—')}</span></td>
-            <td class="col-name">${escapeHtml(member.name || '—')}</td>
-            <td class="col-cid">${escapeHtml(member.cid || '')}</td>
-            <td class="col-party">${partyHTML}</td>
+            \u003ctd class="col-rank">\u003cspan class="roster-rank-badge${isChair ? ' chair' : ''}">${escapeHtml(member.rank || '—')}\u003c/span>\u003c/td>
+            \u003ctd class="col-name">${escapeHtml(member.name || '—')}\u003c/td>
+            \u003ctd class="col-cid">${escapeHtml(member.cid || '')}\u003c/td>
+            \u003ctd class="col-party">${partyHTML}\u003c/td>
             ${affiliationCell}
         `;
         return tr;
@@ -1010,8 +1011,8 @@
         }
         const swatchColor = safeColor(color);
         el.innerHTML = `
-            <span class="party-legend-swatch" style="background:${swatchColor};"></span>
-            <span class="party-legend-label">${escapeHtml(name)}</span>
+            \u003cspan class="party-legend-swatch" style="background:${swatchColor};">\u003c/span>
+            \u003cspan class="party-legend-label">${escapeHtml(name)}\u003c/span>
         `;
         return el;
     }
@@ -1288,12 +1289,12 @@
 
     function buildPartyCaretSlotHTML(showToggle, toggleClass = 'party-coalition-toggle', caretClass = 'party-coalition-caret', ariaLabel = 'Toggle') {
         if (!showToggle) return '';
-        return `<span class="party-caret-slot">
-            <button type="button" class="roster-toggle-btn party ${toggleClass}"
+        return `\u003cspan class="party-caret-slot">
+            \u003cbutton type="button" class="roster-toggle-btn party ${toggleClass}"
                 aria-expanded="false" aria-label="${escapeHtml(ariaLabel)}">
-                <span class="${caretClass}">▼</span>
-            </button>
-        </span>`;
+                \u003cspan class="${caretClass}">▼\u003c/span>
+            \u003c/button>
+        \u003c/span>`;
     }
 
     function buildPartyRowHTML({
@@ -1308,24 +1309,24 @@
         );
         const seatsTitle = seatPortionTitle(seatCount, ofTotal, ofLabel);
         const seatsHTML = seatsLabel
-            ? `<span class="party-row-seats" title="${escapeHtml(seatsTitle || seatsLabel)}">${escapeHtml(seatsLabel.toUpperCase())}</span>`
+            ? `\u003cspan class="party-row-seats" title="${escapeHtml(seatsTitle || seatsLabel)}">${escapeHtml(seatsLabel.toUpperCase())}\u003c/span>`
             : '';
         const descriptionHTML = description
-            ? `<div class="party-row-desc">${escapeHtml(description)}</div>`
+            ? `\u003cdiv class="party-row-desc">${escapeHtml(description)}\u003c/div>`
             : '';
         const metaClass = showToggle ? 'party-row-meta' : 'party-row-meta party-row-meta--nested';
         return `
-            <div class="party-row-body">
-                <div class="party-row-media">${logoHTML}</div>
-                <div class="party-row-main">
-                    <span class="party-row-name" title="${escapeHtml(name)}">${escapeHtml(name)}</span>
-                    <div class="${metaClass}">
+            \u003cdiv class="party-row-body">
+                \u003cdiv class="party-row-media">${logoHTML}\u003c/div>
+                \u003cdiv class="party-row-main">
+                    \u003cspan class="party-row-name" title="${escapeHtml(name)}">${escapeHtml(name)}\u003c/span>
+                    \u003cdiv class="${metaClass}">
                         ${metaExtraHTML}
                         ${seatsHTML}
                         ${buildPartyCaretSlotHTML(!!showToggle, toggleClass, caretClass, ariaLabel)}
-                    </div>
-                </div>
-            </div>
+                    \u003c/div>
+                \u003c/div>
+            \u003c/div>
             ${descriptionHTML}
         `;
     }
@@ -1360,29 +1361,29 @@
         const seatsLabel = formatSeatPortion(seatCount, partySeats > 0 ? partySeats : null);
         const seatsTitle = seatPortionTitle(seatCount, partySeats > 0 ? partySeats : null, parentParty?.name || '');
         const seatsHTML = seatsLabel
-            ? `<span class="party-row-seats" title="${escapeHtml(seatsTitle)}">${escapeHtml(seatsLabel)}</span>`
+            ? `\u003cspan class="party-row-seats" title="${escapeHtml(seatsTitle)}">${escapeHtml(seatsLabel)}\u003c/span>`
             : '';
 
         const logoSrc = escapeHtml(safeUrl(wing.logo || parentParty?.logo || defaultLogo, defaultLogo));
         const name = wing.name || '';
         const labelText = (wing.label != null ? String(wing.label) : '').trim();
         const labelHTML = labelText
-            ? `<div class="party-wing-row-bottom">${escapeHtml(labelText)}</div>`
+            ? `\u003cdiv class="party-wing-row-bottom">${escapeHtml(labelText)}\u003c/div>`
             : '';
 
         item.innerHTML = `
-            <div class="party-row-body">
-                <div class="party-row-media">
-                    <img class="party-row-logo" src="${logoSrc}" alt="${escapeHtml(name)}">
-                </div>
-                <div class="party-row-main">
-                    <div class="party-wing-row-top">
-                        <span class="party-row-name" title="${escapeHtml(name)}">${escapeHtml(name)}</span>
+            \u003cdiv class="party-row-body">
+                \u003cdiv class="party-row-media">
+                    \u003cimg class="party-row-logo" src="${logoSrc}" alt="${escapeHtml(name)}">
+                \u003c/div>
+                \u003cdiv class="party-row-main">
+                    \u003cdiv class="party-wing-row-top">
+                        \u003cspan class="party-row-name" title="${escapeHtml(name)}">${escapeHtml(name)}\u003c/span>
                         ${seatsHTML}
-                    </div>
+                    \u003c/div>
                     ${labelHTML}
-                </div>
-            </div>
+                \u003c/div>
+            \u003c/div>
         `;
 
         if (isRosterWingSelectEnabled() && name) {
@@ -1431,7 +1432,7 @@
         if (p.name) item.dataset.party = p.name;
         item.style.setProperty('--party-color', safeColor(p.color));
 
-        const logoHTML = `<img class="party-row-logo" src="${escapeHtml(safeUrl(p.logo || defaultLogo, defaultLogo))}" alt="${escapeHtml(p.name || '')}">`;
+        const logoHTML = `\u003cimg class="party-row-logo" src="${escapeHtml(safeUrl(p.logo || defaultLogo, defaultLogo))}" alt="${escapeHtml(p.name || '')}">`;
         const coalSeats = options.coalitionSeats;
         const coalName = options.coalitionName || '';
         const displaySeats = options.displaySeats ?? p.seats;
@@ -1482,7 +1483,7 @@
         const coalName = (coalition && coalition.name) || 'Coalition';
 
         if (overrideLogo) {
-            return `<img class="coalition-logo-single party-row-logo" src="${escapeHtml(safeUrl(overrideLogo, defaultLogo))}" alt="${escapeHtml(coalName)}">`;
+            return `\u003cimg class="coalition-logo-single party-row-logo" src="${escapeHtml(safeUrl(overrideLogo, defaultLogo))}" alt="${escapeHtml(coalName)}">`;
         }
 
         return buildCoalitionLogoStackHTML(members);
@@ -1496,15 +1497,15 @@
         const count = Math.max(1, visible.length);
 
         const logos = visible.map(p =>
-            `<img src="${escapeHtml(safeUrl(p.logo || defaultLogo, defaultLogo))}" alt="${escapeHtml(p.name)}">`
+            `\u003cimg src="${escapeHtml(safeUrl(p.logo || defaultLogo, defaultLogo))}" alt="${escapeHtml(p.name)}">`
         ).join('');
 
         const moreHTML = overflow > 0
-            ? `<span class="coalition-logo-more" title="${overflow} more party${overflow === 1 ? '' : 'ies'}">+${overflow}</span>`
+            ? `\u003cspan class="coalition-logo-more" title="${overflow} more party${overflow === 1 ? '' : 'ies'}">+${overflow}\u003c/span>`
             : '';
 
         const overflowClass = overflow > 0 ? ' has-overflow' : '';
-        return `<div class="coalition-logo-stack${overflowClass}" data-count="${count}" aria-hidden="true">${logos}${moreHTML}</div>`;
+        return `\u003cdiv class="coalition-logo-stack${overflowClass}" data-count="${count}" aria-hidden="true">${logos}${moreHTML}\u003c/div>`;
     }
 
     let expandedCoalitionPartyNames = new Set();
@@ -1920,10 +1921,10 @@
         }
 
         const wingHTML = wingName
-            ? `<span class="seat-tooltip-wing" title="${escapeHtml(wingName)}">${escapeHtml(wingName)}</span>`
+            ? `\u003cspan class="seat-tooltip-wing" title="${escapeHtml(wingName)}">${escapeHtml(wingName)}\u003c/span>`
             : '';
         const coalHTML = coalition
-            ? `<span class="seat-tooltip-coalition" title="${escapeHtml(coalition)}">${escapeHtml(coalition)}</span>`
+            ? `\u003cspan class="seat-tooltip-coalition" title="${escapeHtml(coalition)}">${escapeHtml(coalition)}\u003c/span>`
             : '';
 
         const styleBits = [`--tip-color:${tipColor}`];
@@ -1931,19 +1932,19 @@
         if (tipCoalition) styleBits.push(`--tip-coalition:${tipCoalition}`);
 
         dom.seatTooltip.innerHTML = `
-            <div class="seat-tooltip-card" style="${styleBits.join(';')}">
-                <div class="seat-tooltip-name${hasName ? '' : ' is-vacant'}" title="${escapeHtml(hasName ? councillor : 'Unassigned')}">
+            \u003cdiv class="seat-tooltip-card" style="${styleBits.join(';')}">
+                \u003cdiv class="seat-tooltip-name${hasName ? '' : ' is-vacant'}" title="${escapeHtml(hasName ? councillor : 'Unassigned')}">
                     ${escapeHtml(hasName ? councillor : 'Unassigned')}
-                </div>
-                <div class="seat-tooltip-meta">
-                    <span class="seat-tooltip-party">
-                        <span class="seat-tooltip-swatch" aria-hidden="true"></span>
-                        <span class="seat-tooltip-party-label" title="${escapeHtml(party)}">${escapeHtml(party)}</span>
-                    </span>
+                \u003c/div>
+                \u003cdiv class="seat-tooltip-meta">
+                    \u003cspan class="seat-tooltip-party">
+                        \u003cspan class="seat-tooltip-swatch" aria-hidden="true">\u003c/span>
+                        \u003cspan class="seat-tooltip-party-label" title="${escapeHtml(party)}">${escapeHtml(party)}\u003c/span>
+                    \u003c/span>
                     ${wingHTML}
                     ${coalHTML}
-                </div>
-            </div>
+                \u003c/div>
+            \u003c/div>
         `;
         dom.seatTooltip.classList.add('is-active');
     }
@@ -2401,7 +2402,7 @@
     function resetTooltip() {
         if (!dom.seatTooltip) return;
         dom.seatTooltip.classList.remove('is-active');
-        dom.seatTooltip.innerHTML = '<div class="seat-tooltip-idle"></div>';
+        dom.seatTooltip.innerHTML = '\u003cdiv class="seat-tooltip-idle">\u003c/div>';
         dom.seatTooltip.style.color = '';
         activeTooltipCircle = null;
     }
@@ -2492,33 +2493,33 @@
 
             const issuedByString = [d.role, d.name].filter(Boolean).join(' ') || 'Overwatch';
             const isPinned = hasPinnedClass(d.classOverride);
-            const pinnedBadge = isPinned ? '<span class="status status-pinned">Pinned</span>' : '';
+            const pinnedBadge = isPinned ? '\u003cspan class="status status-pinned">Pinned\u003c/span>' : '';
             const description = d.description != null ? String(d.description).trim() : '';
 
             card.innerHTML = `
-                <div class="ly-tier-banner-header">
-                    <div style="flex:1;">
-                        <div class="ly-tier-label">${escapeHtml(d.number || 'N/A')} · ${escapeHtml(d.category || 'N/A')} · ${escapeHtml(formatDisplayDate(d.date || 'N/A'))}${escapeHtml(labelSuffix)}</div>
-                        <div class="ly-tier-title">${escapeHtml(d.title || 'Untitled Decree')}</div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-                        <span class="status status-${statusSlug(resolvedStatus)}">${escapeHtml(resolvedStatus)}</span>
+                \u003cdiv class="ly-tier-banner-header">
+                    \u003cdiv style="flex:1;">
+                        \u003cdiv class="ly-tier-label">${escapeHtml(d.number || 'N/A')} · ${escapeHtml(d.category || 'N/A')} · ${escapeHtml(formatDisplayDate(d.date || 'N/A'))}${escapeHtml(labelSuffix)}\u003c/div>
+                        \u003cdiv class="ly-tier-title">${escapeHtml(d.title || 'Untitled Decree')}\u003c/div>
+                    \u003c/div>
+                    \u003cdiv style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+                        \u003cspan class="status status-${statusSlug(resolvedStatus)}">${escapeHtml(resolvedStatus)}\u003c/span>
                         ${pinnedBadge}
-                    </div>
-                </div>
-                <div class="ly-tier-banner-body">
-                    <div style="margin-bottom:10px;">
-                        <span class="wn-eyebrow">Issued By</span>
-                        <p style="margin:4px 0 0;font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(255,255,255,0.55);">${escapeHtml(issuedByString)}</p>
-                    </div>
-                    <hr style="margin:8px 0;">
-                    <div class="decree-desc-block">
-                        <div class="decree-desc-wrapper">
-                            <div class="decree-desc-content${description ? '' : ' is-empty'}">${description ? escapeHtml(description) : 'No description provided.'}</div>
-                        </div>
-                    </div>
-                    <span class="decree-stamp">${escapeHtml(d.category || '')}</span>
-                </div>
+                    \u003c/div>
+                \u003c/div>
+                \u003cdiv class="ly-tier-banner-body">
+                    \u003cdiv style="margin-bottom:10px;">
+                        \u003cspan class="wn-eyebrow">Issued By\u003c/span>
+                        \u003cp style="margin:4px 0 0;font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(255,255,255,0.55);">${escapeHtml(issuedByString)}\u003c/p>
+                    \u003c/div>
+                    \u003chr style="margin:8px 0;">
+                    \u003cdiv class="decree-desc-block">
+                        \u003cdiv class="decree-desc-wrapper">
+                            \u003cdiv class="decree-desc-content${description ? '' : ' is-empty'}">${description ? escapeHtml(description) : 'No description provided.'}\u003c/div>
+                        \u003c/div>
+                    \u003c/div>
+                    \u003cspan class="decree-stamp">${escapeHtml(d.category || '')}\u003c/span>
+                \u003c/div>
             `;
 
             if (!description) return { card, measure: null };
@@ -2695,30 +2696,30 @@
                 card.style.marginBottom = '16px';
 
                 const membersMarkup = (committee.members || [])
-                    .map(member => `<span class="member-pill ${member.chair ? 'chair' : ''}">${escapeHtml(member.name || 'Name')}</span>`)
+                    .map(member => `\u003cspan class="member-pill ${member.chair ? 'chair' : ''}">${escapeHtml(member.name || 'Name')}\u003c/span>`)
                     .join('');
                 const isPinned = hasPinnedClass(committee.classOverride);
-                const pinnedBadge = isPinned ? '<span class="status status-pinned">Pinned</span>' : '';
+                const pinnedBadge = isPinned ? '\u003cspan class="status status-pinned">Pinned\u003c/span>' : '';
 
                 card.innerHTML = `
-                    <div class="ly-tier-banner-header">
-                        <div style="flex:1;">
-                            <div class="ly-tier-label">${escapeHtml(committee.category || 'Committee')} · ${committee.date ?
-                        `Est. ${escapeHtml(formatDisplayDate(committee.date))}` : '<span style="opacity: 0.6;">Permanent</span>'}</div>
-                            <div class="ly-tier-title">${escapeHtml(committee.title || 'Untitled Committee')}</div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-                            <span class="status status-${statusSlug(committee.status || 'inactive')}">${escapeHtml(committee.status || 'inactive')}</span>
+                    \u003cdiv class="ly-tier-banner-header">
+                        \u003cdiv style="flex:1;">
+                            \u003cdiv class="ly-tier-label">${escapeHtml(committee.category || 'Committee')} · ${committee.date ?
+                        `Est. ${escapeHtml(formatDisplayDate(committee.date))}` : '\u003cspan style="opacity: 0.6;">Permanent\u003c/span>'}\u003c/div>
+                            \u003cdiv class="ly-tier-title">${escapeHtml(committee.title || 'Untitled Committee')}\u003c/div>
+                        \u003c/div>
+                        \u003cdiv style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+                            \u003cspan class="status status-${statusSlug(committee.status || 'inactive')}">${escapeHtml(committee.status || 'inactive')}\u003c/span>
                             ${pinnedBadge}
-                        </div>
-                    </div>
-                    <div class="ly-tier-banner-body">
-                        <p style="margin-bottom:14px;">${escapeHtml(committee.description || 'Description')}</p>
-                        <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:12px;">
-                            <span class="wn-eyebrow" style="display:block;margin-bottom:8px;">Members</span>
-                            <div>${membersMarkup || '<span class="member-pill">No members listed</span>'}</div>
-                        </div>
-                    </div>
+                        \u003c/div>
+                    \u003c/div>
+                    \u003cdiv class="ly-tier-banner-body">
+                        \u003cp style="margin-bottom:14px;">${escapeHtml(committee.description || 'Description')}\u003c/p>
+                        \u003cdiv style="border-top:1px solid rgba(255,255,255,0.07);padding-top:12px;">
+                            \u003cspan class="wn-eyebrow" style="display:block;margin-bottom:8px;">Members\u003c/span>
+                            \u003cdiv>${membersMarkup || '\u003cspan class="member-pill">No members listed\u003c/span>'}\u003c/div>
+                        \u003c/div>
+                    \u003c/div>
                 `;
 
                 section.appendChild(card);
@@ -3065,7 +3066,7 @@
             if (hasFilters && bills.length) {
                 dom.dynamicContainer.innerHTML = emptyStateHTML(
                     'No bills match the current filters.',
-                    '<button type="button" class="terminal-btn terminal-colors" onclick="clearLegislationFilters()">Clear filters</button>'
+                    '\u003cbutton type="button" class="terminal-btn terminal-colors" onclick="clearLegislationFilters()">Clear filters\u003c/button>'
                 );
             } else {
                 dom.dynamicContainer.innerHTML = emptyStateHTML('No legislation on record.');
@@ -3110,28 +3111,28 @@
                 block.className = 'ly-tier-banner';
                 block.style.marginBottom = '30px';
                 block.innerHTML = `
-                        <div class="ly-tier-banner-header">
-                            <div>
-                                <div class="ly-tier-label">${activeViewMode === "none" ? "All Legislation" : activeViewMode}</div>
-                                <div class="ly-tier-title">${escapeHtml(groupTitle)}</div>
-                            </div>
-                        </div>
-                        <div class="ly-tier-banner-body" style="padding: 0;">
-                            <table class="wn-table-striped legislation-table" style="margin: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 70px; text-align: center;">No.</th>
-                                        <th>Title</th>
-                                        <th style="width: 110px; text-align: left;">Type</th>
-                                        <th style="width: 110px; text-align: center;">Status</th>
-                                        <th style="width: 105px; text-align: center;">Introduced</th>
-                                        <th style="width: 105px; text-align: center;">Modified</th>
-                                        <th class="legislation-expand-col" aria-label="Amendments"></th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                        \u003cdiv class="ly-tier-banner-header">
+                            \u003cdiv>
+                                \u003cdiv class="ly-tier-label">${activeViewMode === "none" ? "All Legislation" : activeViewMode}\u003c/div>
+                                \u003cdiv class="ly-tier-title">${escapeHtml(groupTitle)}\u003c/div>
+                            \u003c/div>
+                        \u003c/div>
+                        \u003cdiv class="ly-tier-banner-body" style="padding: 0;">
+                            \u003ctable class="wn-table-striped legislation-table" style="margin: 0; width: 100%;">
+                                \u003cthead>
+                                    \u003ctr>
+                                        \u003cth style="width: 70px; text-align: center;">No.\u003c/th>
+                                        \u003cth>Title\u003c/th>
+                                        \u003cth style="width: 110px; text-align: left;">Type\u003c/th>
+                                        \u003cth style="width: 110px; text-align: center;">Status\u003c/th>
+                                        \u003cth style="width: 105px; text-align: center;">Introduced\u003c/th>
+                                        \u003cth style="width: 105px; text-align: center;">Modified\u003c/th>
+                                        \u003cth class="legislation-expand-col" aria-label="Amendments">\u003c/th>
+                                    \u003c/tr>
+                                \u003c/thead>
+                                \u003ctbody>\u003c/tbody>
+                            \u003c/table>
+                        \u003c/div>
                     `;
 
                 const tbody = block.querySelector('tbody');
@@ -3153,21 +3154,21 @@
 
                     const billTitle = bill.title || 'N/A';
                     const expandCell = hasAmendments
-                        ? `<td class="legislation-expand-col">
-                                <button type="button" class="legislation-amend-toggle" aria-expanded="${expanded ? 'true' : 'false'}"
+                        ? `\u003ctd class="legislation-expand-col">
+                                \u003cbutton type="button" class="legislation-amend-toggle" aria-expanded="${expanded ? 'true' : 'false'}"
                                     aria-label="Show amendments for ${escapeHtml(bill.title || bill.number || 'bill')}">
-                                    <span class="legislation-amend-caret">▼</span>
-                                </button>
-                            </td>`
-                        : `<td class="legislation-expand-col"></td>`;
+                                    \u003cspan class="legislation-amend-caret">▼\u003c/span>
+                                \u003c/button>
+                            \u003c/td>`
+                        : `\u003ctd class="legislation-expand-col">\u003c/td>`;
 
                     row.innerHTML = `
-                        <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(bill.number || 'N/A')}</td>
-                        <td class="legislation-title-cell" title="${escapeHtml(billTitle)}">${escapeHtml(billTitle)}</td>
-                        <td>${getTypeHTML(bill.type || 'N/A')}</td>
-                        <td style="text-align: center;">${getStatusHTML(bill.status || 'N/A')}</td>
-                        <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatDisplayDate(bill.introduced || 'N/A'))}</td>
-                        <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatDisplayDate(bill.modified || 'N/A'))}</td>
+                        \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(bill.number || 'N/A')}\u003c/td>
+                        \u003ctd class="legislation-title-cell" title="${escapeHtml(billTitle)}">${escapeHtml(billTitle)}\u003c/td>
+                        \u003ctd>${getTypeHTML(bill.type || 'N/A')}\u003c/td>
+                        \u003ctd style="text-align: center;">${getStatusHTML(bill.status || 'N/A')}\u003c/td>
+                        \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatDisplayDate(bill.introduced || 'N/A'))}\u003c/td>
+                        \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatDisplayDate(bill.modified || 'N/A'))}\u003c/td>
                         ${expandCell}
                     `;
 
@@ -3185,13 +3186,13 @@
                             aRow.tabIndex = 0;
                             aRow.setAttribute('role', 'button');
                             aRow.innerHTML = `
-                                <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(presentation.displayNo)}</td>
-                                <td class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}</td>
-                                <td class="legislation-amendment-type"></td>
-                                <td style="text-align: center;">${getStatusHTML(presentation.status)}</td>
-                                <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}</td>
-                                <td class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}</td>
-                                <td class="legislation-expand-col"></td>
+                                \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(presentation.displayNo)}\u003c/td>
+                                \u003ctd class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}\u003c/td>
+                                \u003ctd class="legislation-amendment-type">\u003c/td>
+                                \u003ctd style="text-align: center;">${getStatusHTML(presentation.status)}\u003c/td>
+                                \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}\u003c/td>
+                                \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}\u003c/td>
+                                \u003ctd class="legislation-expand-col">\u003c/td>
                             `;
                             frag.appendChild(aRow);
                         });
@@ -3486,7 +3487,7 @@
         if (!listEl) return;
         listEl.innerHTML = '';
         if (!voters.length) {
-            listEl.innerHTML = '<span style="display:block;text-align:center;color:#6a6a7a;padding:12px 4px;">—</span>';
+            listEl.innerHTML = '\u003cspan style="display:block;text-align:center;color:#6a6a7a;padding:12px 4px;">—\u003c/span>';
             return;
         }
         voters.forEach(voter => {
@@ -3614,18 +3615,18 @@
         const tableWrap = document.createElement('div');
         tableWrap.className = 'amendments-table-wrap';
         tableWrap.innerHTML = `
-            <table class="wn-table-striped legislation-table amendments-table" style="margin:0;width:100%;">
-                <thead>
-                    <tr>
-                        <th style="width:90px;text-align:center;">No.</th>
-                        <th>Title</th>
-                        <th style="width:120px;text-align:center;">Status</th>
-                        <th style="width:110px;text-align:center;">Introduced</th>
-                        <th style="width:110px;text-align:center;">Modified</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            \u003ctable class="wn-table-striped legislation-table amendments-table" style="margin:0;width:100%;">
+                \u003cthead>
+                    \u003ctr>
+                        \u003cth style="width:90px;text-align:center;">No.\u003c/th>
+                        \u003cth>Title\u003c/th>
+                        \u003cth style="width:120px;text-align:center;">Status\u003c/th>
+                        \u003cth style="width:110px;text-align:center;">Introduced\u003c/th>
+                        \u003cth style="width:110px;text-align:center;">Modified\u003c/th>
+                    \u003c/tr>
+                \u003c/thead>
+                \u003ctbody>\u003c/tbody>
+            \u003c/table>
         `;
 
         const tbody = tableWrap.querySelector('tbody');
@@ -3642,11 +3643,11 @@
             }
 
             row.innerHTML = `
-                <td class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(presentation.displayNo)}</td>
-                <td class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}</td>
-                <td style="text-align:center;">${getStatusHTML(presentation.status)}</td>
-                <td class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}</td>
-                <td class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}</td>
+                \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(presentation.displayNo)}\u003c/td>
+                \u003ctd class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}\u003c/td>
+                \u003ctd style="text-align:center;">${getStatusHTML(presentation.status)}\u003c/td>
+                \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}\u003c/td>
+                \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}\u003c/td>
             `;
 
             const openDrill = () => showAmendmentDrillView(bill, index);
@@ -3678,40 +3679,40 @@
         const view = document.createElement('div');
         view.className = 'amendment-drill-view';
         view.innerHTML = `
-            <div class="modal-box-top">
-                <div class="modal-metadata-grid amendment-drill-meta-grid">
-                    <div>
-                        <span class="wn-eyebrow">No.</span>
-                        <p class="wn-text-mono" style="margin-top:4px;font-size:13px;">${escapeHtml(displayNo)}</p>
-                    </div>
-                    <div>
-                        <span class="wn-eyebrow">Title</span>
-                        <p style="margin-top:4px;font-size:14px;">${escapeHtml(label)}</p>
-                    </div>
-                    <div>
-                        <span class="wn-eyebrow">Sponsor</span>
-                        <p class="modal-scroll-limit" style="margin-top:4px;font-size:14px;">${escapeHtml(sponsors.length ? sponsors.join(', ') : 'N/A')}</p>
-                    </div>
-                    <div>
-                        <span class="wn-eyebrow">Introduced</span>
-                        <p style="margin-top:4px;font-size:14px;">${escapeHtml(formatOptionalDisplayDate(introduced))}</p>
-                    </div>
-                    <div>
-                        <span class="wn-eyebrow">Modified</span>
-                        <p style="margin-top:4px;font-size:14px;">${escapeHtml(formatOptionalDisplayDate(modified))}</p>
-                    </div>
-                    <div style="justify-self:start;text-align:center;">
-                        <span class="wn-eyebrow">Status</span>
-                        <p style="margin-top:4px;">${getStatusHTML(status)}</p>
-                    </div>
-                </div>
-            </div>
-            <hr style="margin:0 0 12px 0;">
-            <div class="amendment-change-block${text ? '' : ' is-empty'}" style="margin-bottom:24px;">
-                <span class="wn-eyebrow amendment-change-label"
-                    style="border-bottom:2px solid var(--wn-accent);padding-bottom:2px;">Description</span>
-                <p class="amendment-change-text" style="margin-top:10px;line-height: 1.75;background: rgba(0, 0, 0, 0.1);border-radius: 6px;min-height: 80px;padding: 10px;font-size: 13.5px;">${text ? escapeHtml(text) : 'No description provided.'}</p>
-            </div>
+            \u003cdiv class="modal-box-top">
+                \u003cdiv class="modal-metadata-grid amendment-drill-meta-grid">
+                    \u003cdiv>
+                        \u003cspan class="wn-eyebrow">No.\u003c/span>
+                        \u003cp class="wn-text-mono" style="margin-top:4px;font-size:13px;">${escapeHtml(displayNo)}\u003c/p>
+                    \u003c/div>
+                    \u003cdiv>
+                        \u003cspan class="wn-eyebrow">Title\u003c/span>
+                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(label)}\u003c/p>
+                    \u003c/div>
+                    \u003cdiv>
+                        \u003cspan class="wn-eyebrow">Sponsor\u003c/span>
+                        \u003cp class="modal-scroll-limit" style="margin-top:4px;font-size:14px;">${escapeHtml(sponsors.length ? sponsors.join(', ') : 'N/A')}\u003c/p>
+                    \u003c/div>
+                    \u003cdiv>
+                        \u003cspan class="wn-eyebrow">Introduced\u003c/span>
+                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(formatOptionalDisplayDate(introduced))}\u003c/p>
+                    \u003c/div>
+                    \u003cdiv>
+                        \u003cspan class="wn-eyebrow">Modified\u003c/span>
+                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(formatOptionalDisplayDate(modified))}\u003c/p>
+                    \u003c/div>
+                    \u003cdiv style="justify-self:start;text-align:center;">
+                        \u003cspan class="wn-eyebrow">Status\u003c/span>
+                        \u003cp style="margin-top:4px;">${getStatusHTML(status)}\u003c/p>
+                    \u003c/div>
+                \u003c/div>
+            \u003c/div>
+            \u003chr style="margin:0 0 12px 0;">
+            \u003cdiv class="amendment-change-block${text ? '' : ' is-empty'}" style="margin-bottom:24px;">
+                \u003cspan class="wn-eyebrow amendment-change-label"
+                    style="border-bottom:2px solid var(--wn-accent);padding-bottom:2px;">Description\u003c/span>
+                \u003cp class="amendment-change-text" style="margin-top:10px;line-height: 1.75;background: rgba(0, 0, 0, 0.1);border-radius: 6px;min-height: 80px;padding: 10px;font-size: 13.5px;">${text ? escapeHtml(text) : 'No description provided.'}\u003c/p>
+            \u003c/div>
         `;
         return view;
     }
@@ -3840,10 +3841,10 @@
                 const safeName = escapeHtml(name);
                 const partyDotColor = safeColor(partyColorMap[name] || '#888');
                 const comma = idx < partyNames.length - 1
-                    ? '<span style="color:var(--wn-text); margin-right: 8px">,</span>'
+                    ? '\u003cspan style="color:var(--wn-text); margin-right: 8px">,\u003c/span>'
                     : '';
-                return `<span style="color:${partyDotColor};margin-right:4px;">●</span>` +
-                    `<span style="color:color-mix(in srgb, ${partyDotColor} 85%, var(--wn-text));font-weight:500;">${safeName}</span>${comma}`;
+                return `\u003cspan style="color:${partyDotColor};margin-right:4px;">●\u003c/span>` +
+                    `\u003cspan style="color:color-mix(in srgb, ${partyDotColor} 85%, var(--wn-text));font-weight:500;">${safeName}\u003c/span>${comma}`;
             }).join('');
         } else if (dom.modalParty) {
             dom.modalParty.innerHTML = '';
@@ -3868,7 +3869,7 @@
             dom.modalTagsContainer.style.display = validTags.length ? 'block' : 'none';
             if (validTags.length && dom.modalTags) {
                 dom.modalTags.innerHTML = validTags
-                    .map(t => `<span class="modal-tag">${escapeHtml(t.trim())}</span>`)
+                    .map(t => `\u003cspan class="modal-tag">${escapeHtml(t.trim())}\u003c/span>`)
                     .join('');
             }
         }
