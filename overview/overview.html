@@ -1,0 +1,702 @@
+<div class="wn-container secon-terminal">
+    <header class="wn-hero wn-accent-blue">
+        <div class="wn-hero-overlay">
+            <h3 class="session-num" id="session-num-label">Session No. 01</h3>
+            <h1>Assembly Overview</h1>
+            <p class="wn-text-lg wn-eyebrow">Overview, Legislations, Committees, Decrees</p>
+        </div>
+        <img src="https://combineoverwiki.net/images/3/39/City17Lockdown2.jpg" alt="Assembly Overview header">
+    </header>
+
+    <section>
+        <!-- Metadata -->
+        <div class="top-panel">
+            <div class="top-panel-item">
+                <span class="top-panel-label">Next Election Cycle</span>
+                <span id="next-election-cycle" class="top-panel-value">TBA</span>
+            </div>
+            <div class="top-panel-item">
+                <span class="top-panel-label">Active Committees</span>
+                <span id="committee-count" class="top-panel-value"></span>
+            </div>
+            <div class="top-panel-item">
+                <span class="top-panel-label">District Seats</span>
+                <span id="district-seat-count" class="top-panel-value"></span>
+            </div>
+            <div class="top-panel-item">
+                <span class="top-panel-label">Active Bill Count</span>
+                <span id="bill-count" class="top-panel-value"></span>
+            </div>
+            <div class="top-panel-item" id="pending-bills-panel" hidden>
+                <span class="top-panel-label">Pending Bills</span>
+                <span id="pending-bill-count" class="top-panel-value"></span>
+            </div>
+            <div class="top-panel-item" id="assembly-quorum-panel" hidden>
+                <span class="top-panel-label">Assembly Quorum</span>
+                <span id="quorum" class="top-panel-value">5</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs -->
+    <nav class="terminal-nav wn-accent-violet">
+        <button class="terminal-btn active" data-tab="overview" onclick="openTab(event, 'overview')">Overview</button>
+        <button class="terminal-btn" data-tab="legislations"
+            onclick="openTab(event, 'legislations')">Legislations</button>
+        <button class="terminal-btn" data-tab="committees" onclick="openTab(event, 'committees')">Committees</button>
+        <button class="terminal-btn" data-tab="decree" onclick="openTab(event, 'decree')">Decrees</button>
+    </nav>
+
+    <!-- Overview -->
+    <div id="overview" class="tab-content active">
+
+        <div class="ly-chapter" data-num="00">
+            <span class="ly-chapter-num assembly-name-label">District Assembly</span>
+            <h2 class="ly-chapter-title" style="margin: 0;">Overview</h2>
+        </div>
+        <hr>
+        <div class="centered">
+            <h3 class="session-header">
+                <span class="assembly-name-label">District Assembly</span>
+            </h3>
+            <h3 class="session-subhead" id="session-subhead-label">Session No. 1</h3>
+        </div>
+        <hr style="margin-top: 24px;">
+        <!-- Seats -->
+        <section class="overview-container">
+            <div style="padding: 0;">
+                <div class="graph-container secon-border-box scrollbar-political">
+                    <div class="seat-map-panel">
+                        <div class="seat-container-background">
+                            <h3 class="chamber-header">Chamber</h3>
+                            <svg id="seatMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 185"
+                                style="display:block;height:285px;z-index:1;">
+                                <g>
+                                    <text id="seat-count-text" x="50%" y="135"
+                                        style="font-size:45px;font-weight:bold;text-anchor:middle;fill:rgba(255,255,255,0.45); pointer-events: none; user-select: none;">8</text>
+                                    <g id="seats">
+                                        <circle cx="31.32" cy="160.12" r="20"></circle>
+                                        <circle cx="51.63" cy="102.40" r="20"></circle>
+                                        <circle cx="93.31" cy="57.59" r="20"></circle>
+                                        <circle cx="149.40" cy="33.15" r="20"></circle>
+                                        <circle cx="210.60" cy="33.15" r="20"></circle>
+                                        <circle cx="266.69" cy="57.59" r="20"></circle>
+                                        <circle cx="308.37" cy="102.40" r="20"></circle>
+                                        <circle cx="328.68" cy="160.12" r="20"></circle>
+                                    </g>
+                                </g>
+                            </svg>
+                            <div class="seat-tooltip-box" id="seat-tooltip">
+                                <div class="seat-tooltip-idle"></div>
+                            </div>
+                            <div id="party-legend" class="scrollbar-political">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="party-column">
+                        <h3 class="party-header">Parties</h3>
+                        <div id="party-boxes"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Assembly Composition -->
+        <section class="" style="padding: 0;">
+            <div style="padding: 12px 12px;">
+                <div class="split" style="display: flex; align-items: center; justify-content:space-between">
+                    <h3>Assembly Executive</h3>
+                    <span class="wn-eyebrow" id="session-eyebrow-label">Session No. 1</span>
+                </div>
+                <div class="assembly-executive">
+                    <div class="assembly-block hover">
+                        <div id="overseer-slot"
+                            style="border: dashed 1px rgba(var(--wn-accent-rgb), 0.4); padding: 10px;">
+                            <span class="top-panel-label">District Overseer</span>
+                            <h3 class="wn-mb-0" style="color:var(--wn-accent);"></h3>
+                            <span class="wn-text-mono" style="font-size:11px;display:block;margin-top:4px;"></span>
+                        </div>
+                    </div>
+                    <div class="assembly-block hover">
+                        <div id="chairperson-slot"
+                            style="border: dashed 1px rgba(var(--wn-accent-rgb), 0.4); padding: 10px;">
+                            <span class="top-panel-label">District Chairperson</span>
+                            <h3 class="wn-mb-0" style="color:var(--wn-accent);"></h3>
+                            <span class="wn-text-mono" style="font-size:11px;display:block;margin-top:4px;"></span>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="split">Latest Activity</h3>
+                <div class="wn-columns-3" style="margin-bottom: 0px !important;">
+                    <div class="update-block hover">
+                        <span class="top-panel-label">Latest Legislation</span>
+                        <span id="newest-bill" class="top-panel-value"></span>
+                    </div>
+                    <div class="update-block hover">
+                        <span class="top-panel-label">Latest Decree</span>
+                        <span id="newest-decree" class="top-panel-value"></span>
+                    </div>
+                    <div class="update-block hover">
+                        <span class="top-panel-label">Committees</span>
+                        <span id="newest-committee" class="top-panel-value"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- District Redirect -->
+            <div style="padding: 12px;">
+                <h3 class="split">Information</h3>
+                <div class="redirect-grid">
+                    <a href="https://willard.network/forums/threads/district-administration.16132/">
+                        <div style="background: rgba(0, 0, 0, 0.25);">
+                            <div class="admin-redirect">
+                                <h3>District Administration</h3>
+                                <span class="subheader">Faction Megathread</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://willard.network/forums/threads/legislation-format-overview.16240/#post-128785">
+                        <div style="background: rgba(0, 0, 0, 0.25);">
+                            <div class="admin-redirect admin-redirect-2">
+                                <h3>Legislation</h3>
+                                <span class="subheader">Legislation Guide</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <!-- Assembly Roster -->
+        <section class="">
+            <div class="roster-header"
+                style="border-bottom: 1px solid rgba(255, 255, 255, 0.07);padding-bottom: 4px;line-height: normal;margin-bottom: 14px;">
+                <h3>Assembly Roster</h3>
+                <button type="button" class="roster-toggle-btn" id="roster-toggle-btn" onclick="toggleRoster()"
+                    aria-expanded="false" aria-controls="roster-panel">
+                    <span id="roster-caret">▼</span>
+                </button>
+            </div>
+            <div id="roster-panel" class="roster-panel">
+                <table class="roster-table">
+                    <tbody id="roster-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <!-- Legislation -->
+    <div id="legislations" class="tab-content">
+
+        <div class="ly-chapter" data-num="01">
+            <span class="ly-chapter-num assembly-name-label">District Assembly</span>
+            <h2 class="ly-chapter-title">Legislation</h2>
+        </div>
+
+        <section>
+            <div id="legislation-controls">
+                <button type="button" class="drawer-toggle-btn" id="legislation-drawer-toggle"
+                    onclick="toggleControlDrawer()" aria-expanded="false" aria-controls="control-panel-drawer">
+                    <span>Filter & Sort</span>
+                    <span id="drawer-caret">▼</span>
+                </button>
+
+                <div id="control-panel-drawer" class="sort-control-bar">
+                    <div class="sort-row">
+                        <span class="sort-label">Table Grouping:</span>
+                        <div class="view-mode-container" id="grouping-mode-container">
+                            <button class="mode-toggle-btn" id="mode-session"
+                                onclick="handleGroupingToggle('session')">Sessions</button>
+                            <button class="mode-toggle-btn" id="mode-status"
+                                onclick="handleGroupingToggle('status')">Status</button>
+                            <button class="mode-toggle-btn" id="mode-type"
+                                onclick="handleGroupingToggle('type')">Type</button>
+                        </div>
+                    </div>
+                    <div class="sort-row" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;">
+                        <span class="sort-label">Sort Column:</span>
+                        <div class="sort-options">
+                            <span class="sort-link" id="sort-number" onclick="handleSortToggle('number')">No. <span
+                                    class="dir"></span></span>
+                            <span class="sort-link" id="sort-type" onclick="handleSortToggle('type')">Type <span
+                                    class="dir"></span></span>
+                            <span class="sort-link" id="sort-status" onclick="handleSortToggle('status')">Status <span
+                                    class="dir"></span></span>
+                            <span class="sort-link" id="sort-introduced"
+                                onclick="handleSortToggle('introduced')">Introduced <span class="dir"></span></span>
+                            <span class="sort-link" id="sort-modified" onclick="handleSortToggle('modified')">Modified
+                                <span class="dir"></span></span>
+                        </div>
+                    </div>
+                    <div class="sort-row" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;">
+                        <span class="sort-label">Filter Status:</span>
+                        <div id="status-cloud-container" class="filter-cloud"></div>
+                    </div>
+                    <div class="sort-row" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;">
+                        <span class="sort-label">Filter Type:</span>
+                        <div id="type-cloud-container" class="filter-cloud"></div>
+                    </div>
+                    <div class="sort-row" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;">
+                        <span class="sort-label">Filter Tags:</span>
+                        <div id="tag-cloud-container" class="filter-cloud tag-filter-cloud"></div>
+                    </div>
+                    <div class="sort-row" style="border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;">
+                        <span class="sort-label">Tag Match:</span>
+                        <div class="view-mode-container" id="tag-match-container">
+                            <button type="button" class="mode-toggle-btn active" id="tag-match-all"
+                                onclick="handleTagMatchToggle('all')" aria-pressed="true">All</button>
+                            <button type="button" class="mode-toggle-btn" id="tag-match-any"
+                                onclick="handleTagMatchToggle('any')" aria-pressed="false">Any</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dynamic-tables-container"></div>
+        </section>
+
+        <!-- Bill Modal -->
+        <section>
+            <div id="bill-modal" class="bill-modal" style="display:none;" role="dialog" aria-modal="true"
+                aria-hidden="true" aria-labelledby="modal-title">
+                <div class="bill-modal-shell">
+                    <div class="bill-modal-tabs" role="tablist" aria-label="Bill modal panels">
+                        <button type="button" class="bill-modal-tab active" id="modal-tab-details" role="tab"
+                            aria-selected="true" aria-controls="modal-panel-details" tabindex="0"
+                            onclick="setBillModalTab('details')">Details</button>
+                        <button type="button" class="bill-modal-tab" id="modal-tab-amendments" role="tab"
+                            aria-selected="false" aria-controls="modal-panel-amendments" tabindex="-1"
+                            onclick="setBillModalTab('amendments')">Amendments</button>
+                        <button type="button" class="bill-modal-tab" id="modal-tab-votes" role="tab"
+                            aria-selected="false" aria-controls="modal-panel-votes" tabindex="-1"
+                            onclick="setBillModalTab('votes')">Votes</button>
+                    </div>
+                    <div class="ly-tier-banner">
+                        <div class="ly-tier-banner-header" style="position:relative;">
+                            <div>
+                                <div id="modal-number" class="wn-text-mono ly-tier-label" style="font-size:14px;"></div>
+                                <div id="modal-title" class="ly-tier-title" style="font-size:24px;margin-top:4px;">
+                                </div>
+                            </div>
+                            <button type="button" id="modal-close-btn" class="bill-modal-close" onclick="closeModal()"
+                                aria-label="Close bill details">&times;</button>
+                        </div>
+                        <div class="ly-tier-banner-body">
+                            <!-- Details panel -->
+                            <div id="modal-panel-details" class="modal-panel active" role="tabpanel"
+                                aria-labelledby="modal-tab-details" aria-hidden="false">
+                                <div class="modal-content">
+                                    <div class="modal-box-top">
+                                        <div class="modal-metadata-grid">
+                                            <div>
+                                                <span class="wn-eyebrow">Sponsor</span>
+                                                <p id="modal-sponsor" class="modal-scroll-limit"
+                                                    style="margin-top:4px;font-size:14px;"></p>
+                                            </div>
+                                            <div>
+                                                <span class="wn-eyebrow">Introduced</span>
+                                                <p id="modal-introduced" style="margin-top:4px;font-size:14px;"></p>
+                                            </div>
+                                            <div>
+                                                <span class="wn-eyebrow">Modified</span>
+                                                <p id="modal-modified" style="margin-top:4px;font-size:14px;"></p>
+                                            </div>
+                                            <div style="justify-self:start;text-align:center;">
+                                                <span class="wn-eyebrow">Status</span>
+                                                <p id="modal-status" style="margin-top:4px;"></p>
+                                            </div>
+                                            <div>
+                                                <span class="wn-eyebrow">Type</span>
+                                                <p id="modal-type" style="margin-top:4px;font-size:14px;"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr style="margin:0 0 12px 0;">
+                                    <div id="modal-description-container" style="margin-bottom:24px;">
+                                        <span class="wn-eyebrow" id="modal-description-label"
+                                            style="border-bottom:2px solid var(--wn-accent);padding-bottom:2px;">Description</span>
+                                        <p id="modal-description"
+                                            style="margin-top:10px;line-height:1.75;background:rgba(0,0,0,0.1);border-radius:6px;min-height:80px;padding:10px;font-size:13.5px;">
+                                        </p>
+                                    </div>
+                                    <div
+                                        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:20px;border-top:1px solid rgba(255,255,255,0.07);padding-top:16px;">
+                                        <div id="modal-party-container">
+                                            <span class="wn-eyebrow">Party</span>
+                                            <p id="modal-party" style="margin-top:4px;font-size:13px;"></p>
+                                        </div>
+                                        <div id="modal-stage-container">
+                                            <span class="wn-eyebrow">Current Stage</span>
+                                            <p id="modal-stage" style="margin-top:4px;font-size:13px;"></p>
+                                        </div>
+                                        <div id="modal-tags-container">
+                                            <span class="wn-eyebrow">Tags</span>
+                                            <div id="modal-tags"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Amendments panel -->
+                            <div id="modal-panel-amendments" class="modal-panel" role="tabpanel"
+                                aria-labelledby="modal-tab-amendments" aria-hidden="true" hidden>
+                                <div class="modal-content" id="modal-amendments-content">
+                                    <div id="modal-amendments-list" class="amendments-panel"></div>
+                                    <div id="amendments-empty-msg" hidden></div>
+                                </div>
+                            </div>
+                            <!-- Votes panel -->
+                            <div id="modal-panel-votes" class="modal-panel" role="tabpanel"
+                                aria-labelledby="modal-tab-votes" aria-hidden="true" hidden>
+                                <div class="modal-content" id="modal-votes-content">
+                                    <div class="votes-summary">
+                                        <div class="votes-stat aye">
+                                            <span class="votes-stat-count" id="vote-count-aye">0</span>
+                                            <span class="votes-stat-label">Aye</span>
+                                        </div>
+                                        <div class="votes-stat abstain">
+                                            <span class="votes-stat-count" id="vote-count-abstain">0</span>
+                                            <span class="votes-stat-label">Abstain</span>
+                                        </div>
+                                        <div class="votes-stat nay">
+                                            <span class="votes-stat-count" id="vote-count-nay">0</span>
+                                            <span class="votes-stat-label">Nay</span>
+                                        </div>
+                                    </div>
+                                    <p id="vote-live-summary" class="visually-hidden" aria-live="polite"></p>
+                                    <div class="votes-bar" id="vote-bar" aria-hidden="true">
+                                        <div class="votes-bar-seg aye" id="vote-bar-aye" style="width:0%"></div>
+                                        <div class="votes-bar-seg abstain" id="vote-bar-abstain" style="width:0%"></div>
+                                        <div class="votes-bar-seg nay" id="vote-bar-nay" style="width:0%"></div>
+                                    </div>
+                                    <div class="votes-columns">
+                                        <div class="votes-column aye">
+                                            <div class="votes-column-header">Aye</div>
+                                            <div class="votes-column-body" id="vote-list-aye"></div>
+                                        </div>
+                                        <div class="votes-column abstain">
+                                            <div class="votes-column-header">Abstain</div>
+                                            <div class="votes-column-body" id="vote-list-abstain"></div>
+                                        </div>
+                                        <div class="votes-column nay">
+                                            <div class="votes-column-header">Nay</div>
+                                            <div class="votes-column-body" id="vote-list-nay"></div>
+                                        </div>
+                                    </div>
+                                    <div id="votes-empty-msg" hidden></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-box-close">
+                            <div class="modal-box-close-end">
+                                <button type="button" id="modal-amendment-back" class="terminal-btn terminal-colors"
+                                    hidden>Back</button>
+                                <div id="modal-amendment-link-container">
+                                    <a id="modal-amendment-link" href="#" target="_blank" rel="noopener"
+                                        class="terminal-btn terminal-colors">Amendment Link</a>
+                                </div>
+                                <div id="modal-link-container">
+                                    <a id="modal-link" href="#" target="_blank" rel="noopener"
+                                        class="terminal-btn terminal-colors">link</a>
+                                </div>
+
+                                <button type="button" onclick="closeModal()"
+                                    class="terminal-btn terminal-colors">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Committees -->
+    <div id="committees" class="tab-content">
+
+        <div class="ly-chapter" data-num="02">
+            <span class="ly-chapter-num assembly-name-label">District Assembly</span>
+            <h2 class="ly-chapter-title">Committees</h2>
+        </div>
+
+        <div id="committees-content"></div>
+    </div>
+
+    <!-- Decrees -->
+    <div id="decree" class="tab-content">
+        <div class="ly-chapter" data-num="03">
+            <span class="ly-chapter-num assembly-name-label">District Assembly</span>
+            <h2 class="ly-chapter-title">Decrees</h2>
+        </div>
+        <section id="decrees-content"></section>
+    </div>
+    <footer>
+        Amazing framework by Ethjuro. Special thanks to Reece, Agatha, Boris, and Schizo for their input.
+    </footer>
+</div>
+<script>
+    // name, color, seats, logo, description?
+    // Must be a HEX/RGB colour string.
+    const parties = [
+        {
+            name: "Combine Labour Co-operative",
+            color: "#c52237",
+            seats: 3,
+            logo: "https://i.ibb.co/0ydBg5Tq/clc.png",
+        },
+        {
+            name: "The Harmony Collective",
+            color: "#dbb542",
+            seats: 2,
+            logo: "https://i.ibb.co/C3d5FJkx/harmonymaybe.png",
+        },
+        {
+            name: "The Optimates",
+            color: "#783981",
+            seats: 3,
+            logo: "https://i.ibb.co/MxV0LCgH/logo-rew-ot.png",
+        },
+    ];
+
+    // Historical colour lookups only
+    const partyArchive = [
+        // { name: "Example Former Party", color: "#888888" },
+    ];
+
+    // name, party, members[], logo?, label? (full subtitle), seatColor? (absolute map/roster accent)
+    const partyWings = [
+        {
+            name: "Union",
+            party: "The Harmony Collective",
+            logo: "https://i.ibb.co/cc8jX61V/image-1-1.png",
+            label: "Union Caucus",
+            members: ["Bjørn Tore Godal"],
+            seatColor: "rgba(0,158,219)",
+        },
+    ];
+
+    // Historical wing lookups only (same shape as partyWings).
+    // Does not affect the live seat map / roster wing tints — use partyWings for current membership.
+    const partyWingsArchive = [
+        // { name: "Example Former Wing", party: "Combine Labour Co-operative", members: [], logo: "", label: "" },
+        {
+            name: "New Labour",
+            party: "Combine Labour Co-operative",
+            logo: "https://i.ibb.co/Q74pPc5v/New-Lab1.png",
+            label: "Party Establishment",
+            members: ["Horatio Kingsley", "Tim Keyes"],
+        },
+        {
+            name: "Green Party",
+            party: "Combine Labour Co-operative",
+            logo: "https://i.ibb.co/7NLJZWtW/islamic-psd-1.png",
+            label: "Green-Labour",
+            members: ["Youssef Sayagh"],
+            // seatColor: "#2d8a4e",
+        },
+    ];
+
+    // name, color, logo?, stroke?, parties: [parties[].name, ...], memberOverride: [{ name, party }]
+    // Map/roster/legend placement: the coalition bloc is inserted at the parties[] position of its
+    // largest member (by segment seats). Tie-break: earlier in parties[] (further left).
+    const coalitions = [
+        {
+            name: "Harmony Coalition",
+            color: "#3948ce",
+            logo: "",
+            parties: ["The Harmony Collective", "Combine Labour Co-operative",],
+            memberOverride: [{ name: "Rupert Rhodes", party: "The Optimates" }]
+        },
+    ];
+
+    // rank, cid, name, party?, partyColor? — wing membership is partyWings[].members
+    const roster = [
+        { rank: "Chairperson", cid: "#11111", name: "Karl Söderberg", party: "The Harmony Collective", },
+        { rank: "Councillor", cid: "#11111", name: "Aurelio Piccardi", party: "The Harmony Collective", },
+        { rank: "Councillor", cid: "#11111", name: "Bjørn Tore Godal", party: "The Harmony Collective", },
+        { rank: "Councillor", cid: "#11111", name: "Horatio Kingsley", party: "Combine Labour Co-operative" },
+        { rank: "Councillor", cid: "#11111", name: "Tim Keyes", party: "Combine Labour Co-operative" },
+        { rank: "Councillor", cid: "#11111", name: "Youssef Sayagh", party: "Combine Labour Co-operative" },
+        { rank: "Councillor", cid: "#11111", name: "Julius Knightly", party: "The Optimates", },
+        { rank: "Councillor", cid: "#11111", name: "Salvatore Brinetti", party: "The Optimates", },
+        { rank: "Councillor", cid: "#11111", name: "Rupert Rhodes", party: "The Optimates" },
+    ];
+
+    // Historical colour lookups (party -> parties[] / partyArchive[])
+    const memberArchive = [
+        // { name: "Example Former", party: "The Optimates" },
+    ];
+
+    // sponsors/parties/tags: arrays. number format: [session]-[number] e.g. "1-01"
+    // votes?: { aye, abstain, nay } — name string or { name, party?, partyColor? }
+    // amendments?: nested text-change items (not separate bills; no amendment votes).
+    //   Auto suffix A,B,C… from array order (first=A). Optional id overrides that letter/suffix.
+    //   Display lists newest first (last array item on top). status: Accepted|Rejected|Proposed|…
+    const bills = [
+        // {
+        //     number: "",
+        //     title: "",
+        //     type: "",
+        //     status: "",
+        //     introduced: "",
+        //     modified: "",
+        //     sponsors: [""],
+        //     parties: [""],
+        //     description: "",
+        //     stage: "",
+        //     tags: [""],
+        //     link: "",
+        //     votes: {
+        //         aye: [],
+        //         abstain: [],
+        //         nay: [],
+        //     },
+        //     amendments: [
+        //         {
+        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
+        //             title: "",
+        //             text: "",
+        //             sponsors: [""],
+        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
+        //             introduced: "",  // optional; falls back to bill.introduced
+        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
+        //             link: "",
+        //         },
+        //         {
+        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
+        //             title: "",
+        //             text: "",
+        //             sponsors: [""],
+        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
+        //             introduced: "",  // optional; falls back to bill.introduced
+        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
+        //             link: "",
+        //         },
+        //         {
+        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
+        //             title: "",
+        //             text: "",
+        //             sponsors: [""],
+        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
+        //             introduced: "",  // optional; falls back to bill.introduced
+        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
+        //             link: "",
+        //         },
+        //     ],
+        // },
+        // {
+        //     number: "",
+        //     title: "",
+        //     type: "",
+        //     status: "",
+        //     introduced: "",
+        //     modified: "",
+        //     sponsors: [""],
+        //     parties: [""],
+        //     description: "",
+        //     stage: "",
+        //     tags: [""],
+        //     link: "",
+        //     votes: {
+        //         aye: [],
+        //         abstain: [],
+        //         nay: [],
+        //     },
+        //     amendments: [
+        //     ],
+        // },
+    ];
+    // number format [session]-[n]. role defaults Overwatch. classOverride: "pinned" pins to top.
+    // expiresAt: ISO 8601; omit for no expiry. Empty name OK for Overwatch-only.
+    const decrees = [
+        // {
+        //     number: "",
+        //     title: "",
+        //     role: "",
+        //     classOverride: "",
+        //     date: "",
+        //     status: "",
+        //     category: "",
+        //     description: ``,
+        //     expiresAt: "",
+        // },
+    ];
+
+    // Keys match committees[].category (singular). Section headers display as plural (+ "s").
+    const committeeCategoryColors = {
+        "Special Committee": "#c52237",
+        "Standing Committee": "#1e90ff",
+        "Ad Hoc Committee": "#32cd32"
+    };
+
+    // category (singular, e.g. "Special Committee"), title, date, status, classOverride?, description, members: [{ name, chair? }]
+    const committees = [
+        {
+            category: "Special Committee",
+            title: "The Affairs Commission",
+            date: "",
+            status: "active",
+            classOverride: "pinned",
+            description: "Oversees the Loyalist system, its Collaborators, and its integrity.",
+            members: [
+                { name: "Karina Orlova", chair: true },
+            ]
+        },
+    ];
+
+    const totalSeats = 0; // 0 = use assigned seat count
+    const nextElectionCycle = "TBA";
+    const assemblyName = "Municipal Assembly";
+    const sessionNumber = 1;
+    const displayDateYearOffset = -18; // Appearance only; use 0 to show stored years unchanged.
+    const showPendingBills = 0;
+    const showAssemblyQuorum = 0;
+    const assemblyQuorum = 5;
+    const denseSeatRows = 1;
+    const showSeatCountText = 1;
+    const showSeatCountSlash = 0;
+    const showRosterWings = 0; // 1 = show wing names on assembly roster (affiliation column)
+    // 1 = wing colours on the seat map by default (seatColor or auto wingVariant*); 0 = seats use party colour
+    // Roster wing-select always paints wing seats with the wing accent regardless of this flag.
+    // Does not affect Parties panel wing rows or seat tooltip wing labels.
+    const useWingSeatColors = 0;
+    // 1 = show wing chips in the chamber legend when a party's wings are expanded; 0 = hide unless a wing is selected
+    // (wing-select from the roster always temporarily shows that wing chip in the legend)
+    const showLegendWings = 0;
+    // 1 = click a wing in the Parties panel to highlight its seats (wing colour); 0 = wings not selectable
+    const selectRosterWings = 1;
+    const defaultLogo = "https://combineoverwiki.net/images/thumb/3/34/Wasteland_Scanner_logo.svg/470px-Wasteland_Scanner_logo.svg.png";
+    const vacantColor = "rgba(255,255,255,0)";
+    const vacantOpacity = "1";
+    const vacantStroke = "rgba(255,255,255,0.07)";
+    const coalitionStrokeWidth = 2;
+    // Auto wing accents (when useWingSeatColors and no seatColor): tight hue, sat/brightness deltas
+    const wingVariantHueOffsets = [6, -6, 10, -9, 5, -5, 8, -7];
+    const wingVariantSatDeltas = [0.14, -0.12, 0.10, -0.15, 0.16, -0.11, -0.13, 0.12];
+    const wingVariantLightDeltas = [0.10, -0.085, -0.10, 0.11, 0.08, -0.11, 0.095, -0.075];
+
+    //  CACHE
+
+    const dom = {};
+    const partyColorMap = {};
+    const memberColorMap = {};
+
+    let activeViewMode = "none";
+
+    // Sort presets. currentSortField accepts: number, introduced, modified, type, status, or null.
+    // isAscending = true sorts low-to-high / oldest-first; false sorts high-to-low / newest-first.
+    // "number" uses only the bill-number suffix after the hyphen.
+    // let currentSortField = 'number';    let isAscending = false; // Latest bill number (default)
+    // let currentSortField = 'number';    let isAscending = true;  // Earliest bill number first
+    // let currentSortField = 'introduced'; let isAscending = false; // Latest introduction first
+    // let currentSortField = 'modified';   let isAscending = false; // Latest modification first
+    // let currentSortField = 'type';       let isAscending = true;  // Type A-Z
+    // let currentSortField = 'status';     let isAscending = true;  // Status A-Z
+    // let currentSortField = null;         let isAscending = true;  // Preserve data order
+    let currentSortField = 'number';
+    let isAscending = false;
+    let selectedTags = [];
+    let tagMatchMode = 'all';
+    let selectedStatuses = [];
+    let selectedTypes = [];
+    let lastFilterKey = '';
+    let cachedFilteredBills = [];
+
+    let activeTooltipCircle = null;
+    const PAGE_LOAD_TIME = new Date();
+    const EXPIRY_OVERRIDES = ['rescinded', 'withdrawn', 'on hold', 'pending'];
+</script>
