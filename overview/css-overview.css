@@ -2565,7 +2565,7 @@
         inset: 0;
         background: rgba(0, 0, 0, 0.45);
         display: none;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         z-index: 1000;
     }
@@ -2921,6 +2921,7 @@
         max-width: 860px;
         display: flex;
         flex-direction: column;
+        margin-top: 10vh;
         animation: wn-fadeUp 0.5s ease both;
     }
 
@@ -2953,6 +2954,9 @@
         letter-spacing: 2px;
         text-transform: uppercase;
         padding: 8px 18px;
+        width: 120px;
+        min-width: 120px;
+        box-sizing: border-box;
         cursor: pointer;
         box-shadow: none;
         transition: background 0.2s, color 0.2s;
@@ -3239,6 +3243,10 @@
     }
 
     .wn-container .amendment-drill-meta-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .wn-container .amendment-drill-meta-grid.has-type {
         grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 

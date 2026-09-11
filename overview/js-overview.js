@@ -2794,6 +2794,7 @@ function preprocessBills() {
                 amendment.title = amendment.title != null ? normalizeDisplayText(amendment.title) : '';
                 amendment.text = amendment.text != null ? String(amendment.text).trim() : '';
                 amendment.status = amendment.status != null ? normalizeDisplayText(amendment.status) : '';
+                amendment.type = amendment.type != null ? normalizeDisplayText(amendment.type) : '';
                 amendment.introduced = amendment.introduced != null ? String(amendment.introduced).trim() : '';
                 amendment.modified = amendment.modified != null ? String(amendment.modified).trim() : '';
                 amendment.link = amendment.link != null ? String(amendment.link).trim() : '';
@@ -3045,6 +3046,7 @@ function getAmendmentPresentation(bill, amendment, index = 0) {
     return {
         displayNo,
         label,
+        type: getAmendmentType(amendment) || 'N/A',
         status: getAmendmentStatus(amendment),
         introduced: getAmendmentIntroduced(bill, amendment),
         modified: getAmendmentModified(amendment),
@@ -3225,7 +3227,7 @@ function renderBills() {
                         aRow.innerHTML = `
                                 \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(presentation.displayNo)}\u003c/td>
                                 \u003ctd class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}\u003c/td>
-                                \u003ctd class="legislation-amendment-type">\u003c/td>
+                                \u003ctd class="legislation-amendment-type">${presentation.type ? getTypeHTML(presentation.type) : ''}\u003c/td>
                                 \u003ctd style="text-align: center;">${getStatusHTML(presentation.status)}\u003c/td>
                                 \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}\u003c/td>
                                 \u003ctd class="wn-text-mono" style="text-align: center; font-size: 13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}\u003c/td>
@@ -3250,7 +3252,20 @@ let amendmentsContextBill = null;
 let amendmentDrillIndex = null;
 
 function getBillAmendments(bill) {
-    return Array.isArray(bill?.amendments) ? bill.amendments.filter(Boolean) : [];
+    return Array.isArray(bill?.amendments)
+        ? bill.amendments.filter(amendmentHasContent)
+        : [];
+}
+
+function amendmentHasContent(amendment) {
+    if (!amendment || typeof amendment !== 'object') return false;
+
+    const textFields = ['id', 'title', 'text', 'type', 'status', 'introduced', 'modified', 'link'];
+    if (textFields.some(field => String(amendment[field] ?? '').trim())) return true;
+
+    return normalizeSponsorNames(
+        amendment.sponsors != null ? amendment.sponsors : amendment.sponsor
+    ).length > 0;
 }
 
 // Newest first for display (last amendments[] entry on top). Letters still follow data order (first=A).
@@ -3343,11 +3358,17 @@ function getAmendmentDisplayNumber(bill, amendment, index = 0) {
 function getAmendmentIntroduced(bill, amendment) {
     const own = amendment?.introduced != null ? String(amendment.introduced).trim() : '';
     if (own) return own;
-    return bill?.introduced != null ? String(bill.introduced).trim() : '';
+    const billIntroduced = bill?.introduced != null ? String(bill.introduced).trim() : '';
+    return billIntroduced || 'N/A';
 }
 
 function getAmendmentModified(amendment) {
-    return amendment?.modified != null ? String(amendment.modified).trim() : '';
+    const modified = amendment?.modified != null ? String(amendment.modified).trim() : '';
+    return modified || 'N/A';
+}
+
+function getAmendmentType(amendment) {
+    return amendment?.type != null ? String(amendment.type).trim() : '';
 }
 
 function formatOptionalDisplayDate(value) {
@@ -3648,8 +3669,9 @@ function applyAmendmentModalHeader(bill, amendment, index = 0) {
     const displayNo = getAmendmentDisplayNumber(bill, amendment, index);
     const label = getAmendmentLabel(amendment, index);
     const parentNo = getAmendmentParentNumber(bill);
+    const type = getAmendmentType(amendment) || 'N/A';
     if (dom.modalNumber) {
-        dom.modalNumber.textContent = `Amendment ${displayNo} · Bill ${parentNo}`;
+        dom.modalNumber.textContent = `Amendment ${displayNo} · Bill ${parentNo} · ${type}`;
     }
     if (dom.modalTitle) {
         dom.modalTitle.textContent = label;
@@ -3668,6 +3690,7 @@ function buildAmendmentListView(bill, amendments, highlightId) {
                     \u003ctr>
                         \u003cth style="width:90px;text-align:center;">No.\u003c/th>
                         \u003cth>Title\u003c/th>
+                        \u003cth style="width:110px;text-align:left;">Type\u003c/th>
                         \u003cth style="width:120px;text-align:center;">Status\u003c/th>
                         \u003cth style="width:110px;text-align:center;">Introduced\u003c/th>
                         \u003cth style="width:110px;text-align:center;">Modified\u003c/th>
@@ -3693,6 +3716,7 @@ function buildAmendmentListView(bill, amendments, highlightId) {
         row.innerHTML = `
                 \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(presentation.displayNo)}\u003c/td>
                 \u003ctd class="legislation-title-cell" title="${presentation.titleAttr}">${escapeHtml(presentation.label)}\u003c/td>
+                \u003ctd class="legislation-amendment-type">${presentation.type ? getTypeHTML(presentation.type) : ''}\u003c/td>
                 \u003ctd style="text-align:center;">${getStatusHTML(presentation.status)}\u003c/td>
                 \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.introduced))}\u003c/td>
                 \u003ctd class="wn-text-mono" style="text-align:center;font-size:13px;">${escapeHtml(formatOptionalDisplayDate(presentation.modified))}\u003c/td>
@@ -3715,8 +3739,8 @@ function buildAmendmentListView(bill, amendments, highlightId) {
 
 function buildAmendmentDrillView(bill, amendment, index) {
     const displayNo = getAmendmentDisplayNumber(bill, amendment, index);
-    const label = getAmendmentLabel(amendment, index);
     const status = getAmendmentStatus(amendment);
+    const type = getAmendmentType(amendment);
     const sponsors = normalizeSponsorNames(
         amendment.sponsors != null ? amendment.sponsors : amendment.sponsor
     );
@@ -3728,15 +3752,15 @@ function buildAmendmentDrillView(bill, amendment, index) {
     view.className = 'amendment-drill-view';
     view.innerHTML = `
             \u003cdiv class="modal-box-top">
-                \u003cdiv class="modal-metadata-grid amendment-drill-meta-grid">
+                \u003cdiv class="modal-metadata-grid amendment-drill-meta-grid${type ? ' has-type' : ''}">
                     \u003cdiv>
                         \u003cspan class="wn-eyebrow">No.\u003c/span>
                         \u003cp class="wn-text-mono" style="margin-top:4px;font-size:13px;">${escapeHtml(displayNo)}\u003c/p>
                     \u003c/div>
-                    \u003cdiv>
-                        \u003cspan class="wn-eyebrow">Title\u003c/span>
-                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(label)}\u003c/p>
-                    \u003c/div>
+                    ${type ? `\u003cdiv>
+                        \u003cspan class="wn-eyebrow">Type\u003c/span>
+                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(type)}\u003c/p>
+                    \u003c/div>` : ''}
                     \u003cdiv>
                         \u003cspan class="wn-eyebrow">Sponsor\u003c/span>
                         \u003cp class="modal-scroll-limit" style="margin-top:4px;font-size:14px;">${escapeHtml(sponsors.length ? sponsors.join(', ') : 'N/A')}\u003c/p>
