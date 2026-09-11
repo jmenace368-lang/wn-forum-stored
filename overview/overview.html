@@ -322,12 +322,10 @@
                                         </div>
                                     </div>
                                     <hr style="margin:0 0 12px 0;">
-                                    <div id="modal-description-container" style="margin-bottom:24px;">
+                                    <div id="modal-description-container" style="margin-bottom:16px;">
                                         <span class="wn-eyebrow" id="modal-description-label"
                                             style="border-bottom:2px solid var(--wn-accent);padding-bottom:2px;">Description</span>
-                                        <p id="modal-description"
-                                            style="margin-top:10px;line-height:1.75;background:rgba(0,0,0,0.1);border-radius:6px;min-height:80px;padding:10px;font-size:13.5px;">
-                                        </p>
+                                        <p id="modal-description"></p>
                                     </div>
                                     <div
                                         style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:20px;border-top:1px solid rgba(255,255,255,0.07);padding-top:16px;">
@@ -537,9 +535,12 @@
 
     // sponsors/parties/tags: arrays. number format: [session]-[number] e.g. "1-01"
     // votes?: { aye, abstain, nay } — name string or { name, party?, partyColor? }
-    // amendments?: nested text-change items (not separate bills; no amendment votes).
+    // amendments?: nested text-change items (not separate bills).
     //   Auto suffix A,B,C… from array order (first=A). Optional id overrides that letter/suffix.
     //   Display lists newest first (last array item on top). status: Accepted|Rejected|Proposed|…
+    //   votes?: { aye, abstain, nay } — string counts (e.g. "3","4","5"). All blank/omitted
+    //   hides the Votes UI (invisible spacer keeps description at 2/3). Any one filled uses
+    //   "0" for the blank sides (e.g. aye:"1" → 1-0-0).
     const bills = [
         {
             number: "1-02",
@@ -564,12 +565,17 @@
                     id: "",
                     title: "yes",
                     type: "",
-                    text: "",
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     sponsors: [""],
                     status: "Passed",
                     introduced: "",
                     modified: "",
                     link: "",
+                    votes: {
+                        aye: '1',
+                        abstain: '',
+                        nay: '',
+                    },
                 },
             ],
         },

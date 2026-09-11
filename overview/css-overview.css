@@ -2189,7 +2189,7 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        max-height: 34px;
+        max-height: 54px;
         gap: 6px 12px;
         margin-top: auto;
         border-top: 1px solid rgba(255, 255, 255, 0.07);
@@ -2303,7 +2303,7 @@
         padding-right: 6px;
         overscroll-behavior: contain;
         scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.02);
+        scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
     }
 
     .wn-container .interactive-pill {
@@ -2593,14 +2593,15 @@
     }
 
     .wn-container .modal-content {
-        padding: 24px;
+        padding: 24px 28px 24px 24px;
         position: relative;
         box-sizing: border-box;
         width: 100%;
         max-height: 55vh;
         overflow-y: auto;
+        scrollbar-gutter: stable;
         scrollbar-width: thin;
-        scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.02);
+        scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
     }
 
     .wn-container #modal-tags-container {
@@ -2641,7 +2642,8 @@
     }
 
     .wn-container .ly-tier-banner-body .modal-content {
-        padding: 0;
+        padding: 0 12px 0 0;
+        scrollbar-gutter: stable;
     }
 
     .wn-container .modal-box-top {
@@ -2925,7 +2927,40 @@
         animation: wn-fadeUp 0.5s ease both;
     }
 
-    .wn-container #modal-description-container.is-empty #modal-description {
+    .wn-container #modal-description,
+    .wn-container .amendment-change-text {
+        margin: 10px 0 0;
+        line-height: 1.75;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        min-height: 80px;
+        padding: 10px;
+        font-size: 13.5px;
+    }
+
+    .wn-container .amendment-change-text {
+        max-height: 120px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-gutter: stable;
+        scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
+    }
+
+    .wn-container .amendment-change-text::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .wn-container .amendment-change-text::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .wn-container .amendment-change-text::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 4px;
+    }
+
+    .wn-container #modal-description-container.is-empty #modal-description,
+    .wn-container .amendment-drill-body.is-empty .amendment-change-text {
         color: var(--wn-text-muted);
     }
 
@@ -3227,8 +3262,94 @@
         background: rgba(255, 255, 255, 0.03) !important;
     }
 
-    .wn-container .amendment-change-block.is-empty .amendment-change-text {
-        color: #6a6a7a;
+    .wn-container .amendment-drill-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .wn-container .amendment-drill-body.has-votes {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        column-gap: 20px;
+        row-gap: 10px;
+    }
+
+    .wn-container .amendment-drill-body .amendment-change-label {
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: start;
+    }
+
+    .wn-container .amendment-drill-body .amendment-change-text {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .wn-container .amendment-drill-body.has-votes .amendment-change-text {
+        margin-top: 0;
+    }
+
+    .wn-container .amendment-votes-block.modal-box-top,
+    .wn-container .amendment-votes-spacer {
+        grid-column: 2;
+        grid-row: 2;
+        height: 100px;
+        min-width: 0;
+        box-sizing: border-box;
+        align-self: start;
+    }
+
+    .wn-container .amendment-votes-block.modal-box-top {
+        margin-bottom: 0;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .wn-container .amendment-votes-spacer {
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .wn-container .amendment-votes-tally {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 6px;
+        align-items: start;
+    }
+
+    .wn-container .amendment-vote-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .wn-container .amendment-vote-count {
+        font-size: 16px;
+        line-height: 1.2;
+        letter-spacing: 0.5px;
+    }
+
+    .wn-container .amendment-vote-label {
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .wn-container .amendment-vote-cell.aye .amendment-vote-count {
+        color: #41cd89;
+    }
+
+    .wn-container .amendment-vote-cell.abstain .amendment-vote-count {
+        color: gray;
+    }
+
+    .wn-container .amendment-vote-cell.nay .amendment-vote-count {
+        color: #ff6161;
     }
 
     .wn-container .amendment-details-link {
@@ -3243,11 +3364,11 @@
     }
 
     .wn-container .amendment-drill-meta-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .wn-container .amendment-drill-meta-grid.has-type {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
     @media (max-width: 640px) {
@@ -3263,6 +3384,17 @@
 
         .wn-container .amendment-drill-meta-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .wn-container .amendment-drill-body.has-votes {
+            grid-template-columns: 1fr;
+            row-gap: 16px;
+        }
+
+        .wn-container .amendment-drill-body.has-votes .amendment-votes-block.modal-box-top,
+        .wn-container .amendment-drill-body.has-votes .amendment-votes-spacer {
+            grid-column: 1;
+            grid-row: 3;
         }
 
         .wn-container .bill-modal-tabs {
@@ -3395,9 +3527,9 @@
         display: none;
     }
 
-    .wn-container #party-legend.has-wings-revealed {
+    /* .wn-container #party-legend.has-wings-revealed {
         max-height: 52px;
-    }
+    } */
 
     .wn-container #party-boxes {
         --party-logo-size: 40px;

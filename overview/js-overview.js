@@ -2803,6 +2803,15 @@ function preprocessBills() {
                 )
                     .map(normalizeDisplayText)
                     .filter(Boolean);
+                if (amendment.votes && typeof amendment.votes === 'object') {
+                    amendment.votes = {
+                        aye: normalizeAmendmentVoteValue(amendment.votes.aye),
+                        abstain: normalizeAmendmentVoteValue(amendment.votes.abstain),
+                        nay: normalizeAmendmentVoteValue(amendment.votes.nay),
+                    };
+                } else {
+                    delete amendment.votes;
+                }
                 return amendment;
             })
             : [];
@@ -3371,6 +3380,45 @@ function getAmendmentType(amendment) {
     return amendment?.type != null ? String(amendment.type).trim() : '';
 }
 
+function normalizeAmendmentVoteValue(value) {
+    if (value == null) return '';
+    return String(value).trim();
+}
+
+function getAmendmentVoteCounts(amendment) {
+    const votes = amendment?.votes;
+    if (!votes || typeof votes !== 'object') return null;
+
+    const aye = normalizeAmendmentVoteValue(votes.aye);
+    const abstain = normalizeAmendmentVoteValue(votes.abstain);
+    const nay = normalizeAmendmentVoteValue(votes.nay);
+    if (!aye && !abstain && !nay) return null;
+
+    return {
+        aye: aye || '0',
+        abstain: abstain || '0',
+        nay: nay || '0',
+    };
+}
+
+function formatAmendmentVoteSummaryHTML(amendment) {
+    const counts = getAmendmentVoteCounts(amendment);
+    if (!counts) return '';
+
+    const cell = (kind, label, value) => (
+        `<div class="amendment-vote-cell ${kind}">`
+        + `<span class="amendment-vote-count wn-text-mono">${escapeHtml(value)}</span>`
+        + `<span class="amendment-vote-label">${label}</span>`
+        + `</div>`
+    );
+
+    return `<div class="amendment-votes-tally" aria-label="${escapeHtml(`${counts.aye} aye, ${counts.abstain} abstain, ${counts.nay} nay`)}">`
+        + cell('aye', 'Aye', counts.aye)
+        + cell('abstain', 'Abs', counts.abstain)
+        + cell('nay', 'Nay', counts.nay)
+        + `</div>`;
+}
+
 function formatOptionalDisplayDate(value) {
     return value ? formatDisplayDate(value) : '';
 }
@@ -3738,7 +3786,6 @@ function buildAmendmentListView(bill, amendments, highlightId) {
 }
 
 function buildAmendmentDrillView(bill, amendment, index) {
-    const displayNo = getAmendmentDisplayNumber(bill, amendment, index);
     const status = getAmendmentStatus(amendment);
     const type = getAmendmentType(amendment);
     const sponsors = normalizeSponsorNames(
@@ -3747,20 +3794,14 @@ function buildAmendmentDrillView(bill, amendment, index) {
     const introduced = getAmendmentIntroduced(bill, amendment);
     const modified = getAmendmentModified(amendment);
     const text = getAmendmentText(amendment);
+    const voteSummaryHtml = formatAmendmentVoteSummaryHTML(amendment);
+    const hasVotes = Boolean(voteSummaryHtml);
 
     const view = document.createElement('div');
     view.className = 'amendment-drill-view';
     view.innerHTML = `
             \u003cdiv class="modal-box-top">
                 \u003cdiv class="modal-metadata-grid amendment-drill-meta-grid${type ? ' has-type' : ''}">
-                    \u003cdiv>
-                        \u003cspan class="wn-eyebrow">No.\u003c/span>
-                        \u003cp class="wn-text-mono" style="margin-top:4px;font-size:13px;">${escapeHtml(displayNo)}\u003c/p>
-                    \u003c/div>
-                    ${type ? `\u003cdiv>
-                        \u003cspan class="wn-eyebrow">Type\u003c/span>
-                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(type)}\u003c/p>
-                    \u003c/div>` : ''}
                     \u003cdiv>
                         \u003cspan class="wn-eyebrow">Sponsor\u003c/span>
                         \u003cp class="modal-scroll-limit" style="margin-top:4px;font-size:14px;">${escapeHtml(sponsors.length ? sponsors.join(', ') : 'N/A')}\u003c/p>
@@ -3777,13 +3818,21 @@ function buildAmendmentDrillView(bill, amendment, index) {
                         \u003cspan class="wn-eyebrow">Status\u003c/span>
                         \u003cp style="margin-top:4px;">${getStatusHTML(status)}\u003c/p>
                     \u003c/div>
+                    ${type ? `\u003cdiv>
+                        \u003cspan class="wn-eyebrow">Type\u003c/span>
+                        \u003cp style="margin-top:4px;font-size:14px;">${escapeHtml(type)}\u003c/p>
+                    \u003c/div>` : ''}
                 \u003c/div>
             \u003c/div>
             \u003chr style="margin:0 0 12px 0;">
-            \u003cdiv class="amendment-change-block${text ? '' : ' is-empty'}" style="margin-bottom:24px;">
+            \u003cdiv class="amendment-drill-body has-votes${text ? '' : ' is-empty'}">
                 \u003cspan class="wn-eyebrow amendment-change-label"
                     style="border-bottom:2px solid var(--wn-accent);padding-bottom:2px;">Description\u003c/span>
-                \u003cp class="amendment-change-text" style="margin-top:10px;line-height: 1.75;background: rgba(0, 0, 0, 0.1);border-radius: 6px;min-height: 80px;padding: 10px;font-size: 13.5px;">${text ? escapeHtml(text) : 'No description provided.'}\u003c/p>
+                \u003cp class="amendment-change-text">${text ? escapeHtml(text) : 'No description provided.'}\u003c/p>
+                ${hasVotes ? `\u003cdiv class="modal-box-top amendment-votes-block">
+                    \u003cspan class="wn-eyebrow">Votes\u003c/span>
+                    ${voteSummaryHtml}
+                \u003c/div>` : `\u003cdiv class="amendment-votes-spacer" aria-hidden="true">\u003c/div>`}
             \u003c/div>
         `;
     return view;
