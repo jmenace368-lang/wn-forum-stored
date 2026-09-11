@@ -3134,6 +3134,10 @@
         transition: transform 0.2s ease;
     }
 
+    .wn-container .legislation-bill-row {
+        text-transform: capitalize;
+    }
+
     .wn-container .legislation-bill-row.is-expanded .legislation-amend-caret {
         transform: rotate(180deg);
     }

@@ -3132,7 +3132,7 @@ function renderBills() {
             }
 
             const groupTitle = activeViewMode === "none"
-                ? "General Records"
+                ? "Legislative Records"
                 : activeViewMode === "session" && groupKey !== "UNASSIGNED"
                     ? `No. ${groupKey}`
                     : groupKey;

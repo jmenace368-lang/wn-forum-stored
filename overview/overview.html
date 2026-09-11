@@ -1,3 +1,17 @@
+<style>
+    /* Page shell */
+    .wn-container.secon-terminal {
+        background: var(--wn-bg);
+        color: var(--wn-text);
+        font-family: 'Exo 2', sans-serif;
+        padding: 20px;
+        max-width: 900px;
+        margin: 40px auto;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+</style>
+
+<link rel="stylesheet" href="css-overview.css">
 <div class="wn-container secon-terminal">
     <header class="wn-hero wn-accent-blue">
         <div class="wn-hero-overlay">
@@ -527,78 +541,68 @@
     //   Auto suffix A,B,C… from array order (first=A). Optional id overrides that letter/suffix.
     //   Display lists newest first (last array item on top). status: Accepted|Rejected|Proposed|…
     const bills = [
-        // {
-        //     number: "",
-        //     title: "",
-        //     type: "",
-        //     status: "",
-        //     introduced: "",
-        //     modified: "",
-        //     sponsors: [""],
-        //     parties: [""],
-        //     description: "",
-        //     stage: "",
-        //     tags: [""],
-        //     link: "",
-        //     votes: {
-        //         aye: [],
-        //         abstain: [],
-        //         nay: [],
-        //     },
-        //     amendments: [
-        //         {
-        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
-        //             title: "",
-        //             text: "",
-        //             sponsors: [""],
-        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
-        //             introduced: "",  // optional; falls back to bill.introduced
-        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
-        //             link: "",
-        //         },
-        //         {
-        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
-        //             title: "",
-        //             text: "",
-        //             sponsors: [""],
-        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
-        //             introduced: "",  // optional; falls back to bill.introduced
-        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
-        //             link: "",
-        //         },
-        //         {
-        //             id: "",          // optional override; omit to auto-letter A,B,C… from array order
-        //             title: "",
-        //             text: "",
-        //             sponsors: [""],
-        //             status: "",      // Accepted | Rejected | Proposed | Pending | Withdrawn
-        //             introduced: "",  // optional; falls back to bill.introduced
-        //             modified: "",    // optional; blank if unset (does not inherit bill.modified)
-        //             link: "",
-        //         },
-        //     ],
-        // },
-        // {
-        //     number: "",
-        //     title: "",
-        //     type: "",
-        //     status: "",
-        //     introduced: "",
-        //     modified: "",
-        //     sponsors: [""],
-        //     parties: [""],
-        //     description: "",
-        //     stage: "",
-        //     tags: [""],
-        //     link: "",
-        //     votes: {
-        //         aye: [],
-        //         abstain: [],
-        //         nay: [],
-        //     },
-        //     amendments: [
-        //     ],
-        // },
+        {
+            number: "1-02",
+            title: "The Foundation Act",
+            type: "Procedural",
+            status: "Pending",
+            introduced: "9/09/2026",
+            modified: "",
+            sponsors: ["Karl Söderberg", "Bjørn Tore Godal"],
+            parties: ["The Harmony Collective"],
+            description: "The purpose of this bill is to establish the Assembly's commissions and modify administrative functions.​",
+            stage: "Introduced",
+            tags: ["Committee", "Standing Committees", "Administration", "Biotics", "Economics", "Trade", "Society", "Health", "Security", "Intelligence", "Martial Law", "Party Membership", "Assembly Membership"],
+            link: "https://willard.network/forums/threads/bill-no-02-the-foundation-act.16339/",
+            votes: {
+                aye: [],
+                abstain: [],
+                nay: [],
+            },
+            amendments: [
+                // {
+                //     id: "",
+                //     title: "",
+                //     text: "",
+                //     sponsors: [""],
+                //     status: "",
+                //     introduced: "",
+                //     modified: "",
+                //     link: "",
+                // },
+            ],
+        },
+        {
+            number: "1-01",
+            title: "Establishment of Censorship Committee​",
+            type: "Procedural",
+            status: "Pending",
+            introduced: "9/09/2026",
+            modified: "",
+            sponsors: ["Rupert Rhodes"],
+            parties: ["The Optimates"],
+            description: "Establishment of Censorship Committee",
+            stage: "Introduced",
+            tags: ["Propaganda", "Committee"],
+            link: "https://willard.network/forums/threads/bill-no-01-establishment-of-censorship-committee.16338/",
+            votes: {
+                aye: [],
+                abstain: [],
+                nay: [],
+            },
+            amendments: [
+                // {
+                //     id: "",
+                //     title: "",
+                //     text: "",
+                //     sponsors: [""],
+                //     status: "",
+                //     introduced: "",
+                //     modified: "",
+                //     link: "",
+                // },
+            ],
+        },
     ];
     // number format [session]-[n]. role defaults Overwatch. classOverride: "pinned" pins to top.
     // expiresAt: ISO 8601; omit for no expiry. Empty name OK for Overwatch-only.
@@ -669,3 +673,4 @@
     const wingVariantSatDeltas = [0.14, -0.12, 0.10, -0.15, 0.16, -0.11, -0.13, 0.12];
     const wingVariantLightDeltas = [0.10, -0.085, -0.10, 0.11, 0.08, -0.11, 0.095, -0.075];
 </script>
+<script src="js-overview.js"></script>
