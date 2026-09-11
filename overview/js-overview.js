@@ -371,6 +371,7 @@ function updateLatestEntries() {
 
         if (summary) {
             const titleSpan = document.createElement('span');
+            titleSpan.className = 'latest-entry-title';
             titleSpan.textContent = summary.title;
 
             const metaSpan = createLatestMetaLine(summary.type || 'Unknown', summary.status);
@@ -405,6 +406,7 @@ function updateLatestEntries() {
 
         if (summary) {
             const titleSpan = document.createElement('span');
+            titleSpan.className = 'latest-entry-title';
             titleSpan.textContent = summary.title;
 
             const metaSpan = createLatestMetaLine(summary.category || 'General', summary.status);
@@ -431,6 +433,7 @@ function updateLatestEntries() {
             dom.newestCommittee.onclick = () => showCommitteesTab();
 
             const titleSpan = document.createElement('span');
+            titleSpan.className = 'latest-entry-title';
             titleSpan.textContent = feed.lead.title;
 
             const inactiveCount = Math.max(0, feed.totalCount - feed.activeCount);
@@ -2767,34 +2770,38 @@ function preprocessBills() {
     bills.forEach((b, index) => {
         b._uid = `bill-${index}`;
         b.number = b.number != null ? String(b.number).trim() : '';
-        b.title = b.title != null ? String(b.title).trim() : '';
-        b.type = b.type != null ? String(b.type).trim() : '';
-        b.status = b.status != null ? String(b.status).trim() : '';
+        b.title = b.title != null ? normalizeDisplayText(b.title) : '';
+        b.type = b.type != null ? normalizeDisplayText(b.type) : '';
+        b.status = b.status != null ? normalizeDisplayText(b.status) : '';
         b.introduced = b.introduced != null ? String(b.introduced).trim() : '';
         b.modified = b.modified != null ? String(b.modified).trim() : '';
-        b.description = b.description != null ? String(b.description).trim() : '';
-        b.stage = b.stage != null ? String(b.stage).trim() : '';
+        b.description = b.description != null ? normalizeDisplayText(b.description) : '';
+        b.stage = b.stage != null ? normalizeDisplayText(b.stage) : '';
         b.link = b.link != null ? String(b.link).trim() : '';
-        b.sponsors = normalizeSponsorNames(b.sponsors != null ? b.sponsors : b.sponsor);
+        b.sponsors = normalizeSponsorNames(b.sponsors != null ? b.sponsors : b.sponsor)
+            .map(normalizeDisplayText)
+            .filter(Boolean);
         b.parties = (Array.isArray(b.parties) ? b.parties : b.party ? [b.party] : [])
-            .map(name => typeof name === 'string' ? name.trim() : '')
+            .map(name => typeof name === 'string' ? normalizeDisplayText(name) : '')
             .filter(Boolean);
         b.tags = (Array.isArray(b.tags) ? b.tags : [])
-            .map(tag => typeof tag === 'string' ? tag.trim() : '')
+            .map(tag => typeof tag === 'string' ? normalizeDisplayText(tag) : '')
             .filter(Boolean);
         b.amendments = Array.isArray(b.amendments)
             ? b.amendments.filter(Boolean).map(amendment => {
                 if (!amendment || typeof amendment !== 'object') return amendment;
-                amendment.id = amendment.id != null ? String(amendment.id).trim() : '';
-                amendment.title = amendment.title != null ? String(amendment.title).trim() : '';
-                amendment.text = amendment.text != null ? String(amendment.text).trim() : '';
-                amendment.status = amendment.status != null ? String(amendment.status).trim() : '';
+                amendment.id = amendment.id != null ? normalizeDisplayText(amendment.id) : '';
+                amendment.title = amendment.title != null ? normalizeDisplayText(amendment.title) : '';
+                amendment.text = amendment.text != null ? normalizeDisplayText(amendment.text) : '';
+                amendment.status = amendment.status != null ? normalizeDisplayText(amendment.status) : '';
                 amendment.introduced = amendment.introduced != null ? String(amendment.introduced).trim() : '';
                 amendment.modified = amendment.modified != null ? String(amendment.modified).trim() : '';
                 amendment.link = amendment.link != null ? String(amendment.link).trim() : '';
                 amendment.sponsors = normalizeSponsorNames(
                     amendment.sponsors != null ? amendment.sponsors : amendment.sponsor
-                );
+                )
+                    .map(normalizeDisplayText)
+                    .filter(Boolean);
                 return amendment;
             })
             : [];
@@ -3267,6 +3274,17 @@ function normalizeSponsorNames(source) {
         return name ? [name] : [];
     }
     return [];
+}
+
+function normalizeDisplayText(value) {
+    if (value == null) return '';
+    const text = String(value).trim();
+    if (!text) return '';
+
+    return text
+        .replace(/\s+/g, ' ')
+        .toLocaleLowerCase()
+        .replace(/(^|[\s'’\-])([\p{L}\p{N}])/gu, (match, prefix, char) => `${prefix}${char.toLocaleUpperCase()}`);
 }
 
 function getAmendmentLabel(amendment, index = 0) {
