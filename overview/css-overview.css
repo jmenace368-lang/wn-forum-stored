@@ -618,13 +618,13 @@
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-even td {
         background:
             linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-            rgba(96, 83, 160, 0.045);
+            rgba(96, 83, 160, 0.065);
     }
 
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-odd td {
         background:
             linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
-            rgba(96, 83, 160, 0.045);
+            rgba(96, 83, 160, 0.065);
     }
 
     /* Modal amendments table: independent zebra */
