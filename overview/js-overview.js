@@ -2775,7 +2775,7 @@ function preprocessBills() {
         b.status = b.status != null ? normalizeDisplayText(b.status) : '';
         b.introduced = b.introduced != null ? String(b.introduced).trim() : '';
         b.modified = b.modified != null ? String(b.modified).trim() : '';
-        b.description = b.description != null ? normalizeDisplayText(b.description) : '';
+        b.description = b.description != null ? String(b.description).trim() : '';
         b.stage = b.stage != null ? normalizeDisplayText(b.stage) : '';
         b.link = b.link != null ? String(b.link).trim() : '';
         b.sponsors = normalizeSponsorNames(b.sponsors != null ? b.sponsors : b.sponsor)
@@ -2792,7 +2792,7 @@ function preprocessBills() {
                 if (!amendment || typeof amendment !== 'object') return amendment;
                 amendment.id = amendment.id != null ? normalizeDisplayText(amendment.id) : '';
                 amendment.title = amendment.title != null ? normalizeDisplayText(amendment.title) : '';
-                amendment.text = amendment.text != null ? normalizeDisplayText(amendment.text) : '';
+                amendment.text = amendment.text != null ? String(amendment.text).trim() : '';
                 amendment.status = amendment.status != null ? normalizeDisplayText(amendment.status) : '';
                 amendment.introduced = amendment.introduced != null ? String(amendment.introduced).trim() : '';
                 amendment.modified = amendment.modified != null ? String(amendment.modified).trim() : '';
