@@ -668,35 +668,4 @@
     const wingVariantHueOffsets = [6, -6, 10, -9, 5, -5, 8, -7];
     const wingVariantSatDeltas = [0.14, -0.12, 0.10, -0.15, 0.16, -0.11, -0.13, 0.12];
     const wingVariantLightDeltas = [0.10, -0.085, -0.10, 0.11, 0.08, -0.11, 0.095, -0.075];
-
-    //  CACHE
-
-    const dom = {};
-    const partyColorMap = {};
-    const memberColorMap = {};
-
-    let activeViewMode = "none";
-
-    // Sort presets. currentSortField accepts: number, introduced, modified, type, status, or null.
-    // isAscending = true sorts low-to-high / oldest-first; false sorts high-to-low / newest-first.
-    // "number" uses only the bill-number suffix after the hyphen.
-    // let currentSortField = 'number';    let isAscending = false; // Latest bill number (default)
-    // let currentSortField = 'number';    let isAscending = true;  // Earliest bill number first
-    // let currentSortField = 'introduced'; let isAscending = false; // Latest introduction first
-    // let currentSortField = 'modified';   let isAscending = false; // Latest modification first
-    // let currentSortField = 'type';       let isAscending = true;  // Type A-Z
-    // let currentSortField = 'status';     let isAscending = true;  // Status A-Z
-    // let currentSortField = null;         let isAscending = true;  // Preserve data order
-    let currentSortField = 'number';
-    let isAscending = false;
-    let selectedTags = [];
-    let tagMatchMode = 'all';
-    let selectedStatuses = [];
-    let selectedTypes = [];
-    let lastFilterKey = '';
-    let cachedFilteredBills = [];
-
-    let activeTooltipCircle = null;
-    const PAGE_LOAD_TIME = new Date();
-    const EXPIRY_OVERRIDES = ['rescinded', 'withdrawn', 'on hold', 'pending'];
 </script>
