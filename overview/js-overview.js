@@ -3999,6 +3999,28 @@ function showBillDetails(bill, options = {}) {
 }
 
 let billModalLastFocus = null;
+let billModalScrollLock = null;
+
+function lockBillModalPageScroll() {
+    if (billModalScrollLock) return;
+    const html = document.documentElement;
+    const body = document.body;
+    billModalScrollLock = {
+        htmlOverflow: html.style.overflow,
+        bodyOverflow: body.style.overflow,
+    };
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+}
+
+function unlockBillModalPageScroll() {
+    if (!billModalScrollLock) return;
+    const html = document.documentElement;
+    const body = document.body;
+    html.style.overflow = billModalScrollLock.htmlOverflow;
+    body.style.overflow = billModalScrollLock.bodyOverflow;
+    billModalScrollLock = null;
+}
 
 function openBillModal() {
     if (!dom.billModal) return;
@@ -4006,6 +4028,7 @@ function openBillModal() {
     dom.billModal.classList.add('is-open');
     dom.billModal.style.display = 'flex';
     dom.billModal.setAttribute('aria-hidden', 'false');
+    lockBillModalPageScroll();
     const focusTarget = dom.modalCloseBtn || dom.modalTabDetails || dom.billModal;
     requestAnimationFrame(() => focusTarget.focus?.());
 }
@@ -4016,6 +4039,7 @@ function closeModal() {
         dom.billModal.style.display = 'none';
         dom.billModal.setAttribute('aria-hidden', 'true');
     }
+    unlockBillModalPageScroll();
     amendmentsContextBill = null;
     clearAmendmentDrillState();
     setBillModalTab('details', { syncAmendments: false });

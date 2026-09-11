@@ -2572,10 +2572,13 @@
         align-items: flex-start;
         justify-content: center;
         z-index: 1000;
+        overscroll-behavior: contain;
     }
 
     .wn-container #bill-modal.is-open {
         display: flex;
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 
     .wn-container .bill-modal-close {
@@ -2603,6 +2606,7 @@
         width: 100%;
         max-height: 55vh;
         overflow-y: auto;
+        overscroll-behavior: contain;
         scrollbar-gutter: stable;
         scrollbar-width: thin;
         scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
@@ -2634,6 +2638,7 @@
     .wn-container .modal-scroll-limit {
         max-height: 50px;
         overflow-y: auto;
+        overscroll-behavior: contain;
         scrollbar-width: thin;
     }
 
@@ -2945,6 +2950,7 @@
     .wn-container .amendment-change-text {
         max-height: 120px;
         overflow-y: auto;
+        overscroll-behavior: contain;
         scrollbar-width: thin;
         scrollbar-gutter: stable;
         scrollbar-color: rgba(255, 255, 255, 0.15) rgba(0, 0, 0, 0.1);
