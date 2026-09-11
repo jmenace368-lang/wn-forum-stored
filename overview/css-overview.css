@@ -618,13 +618,13 @@
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-even td {
         background:
             linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-            rgba(33, 74, 117, 0.1);
+            rgba(40, 100, 160, 0.1);
     }
 
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-odd td {
         background:
             linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
-            rgba(33, 74, 117, 0.1);
+            rgba(40, 100, 160, 0.1);
     }
 
     /* Modal amendments table: independent zebra */
@@ -2909,7 +2909,7 @@
         box-sizing: border-box;
         margin: 0;
         text-decoration: none;
-        line-height: 1;
+        line-height: 1.4;
         vertical-align: middle;
         appearance: none;
         -webkit-appearance: none;
@@ -3219,7 +3219,9 @@
     }
 
     .wn-container .legislation-amendment-row:hover td {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background:
+            linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
+            rgba(18, 36, 94, 0.2) !important;
     }
 
     .wn-container .legislation-amendment-type {
