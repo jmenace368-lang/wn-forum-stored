@@ -616,11 +616,15 @@
     }
 
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-even td {
-        background: rgba(0, 0, 0, 0.15);
+        background:
+            linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+            rgba(96, 83, 160, 0.045);
     }
 
     .wn-container .legislation-table tbody>tr.legislation-amendment-row.is-stripe-odd td {
-        background: rgba(0, 0, 0, 0.06);
+        background:
+            linear-gradient(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)),
+            rgba(96, 83, 160, 0.045);
     }
 
     /* Modal amendments table: independent zebra */
@@ -3223,7 +3227,7 @@
     }
 
     .wn-container .legislation-bill-row+.legislation-amendment-row td {
-        border-top: 1px solid rgba(var(--wn-accent-rgb), 0.15);
+        border-top: 1px solid rgba(var(--wn-accent-rgb), 0.25);
     }
 
     .wn-container .legislation-amendment-row:has(+.legislation-bill-row) td {
