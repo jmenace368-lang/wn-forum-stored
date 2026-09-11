@@ -3169,7 +3169,7 @@ function renderBills() {
                             \u003ctable class="wn-table-striped legislation-table" style="margin: 0; width: 100%;">
                                 \u003cthead>
                                     \u003ctr>
-                                        \u003cth style="width: 70px; text-align: center;">No.\u003c/th>
+                                        \u003cth style="width: 90px; text-align: center;">No.\u003c/th>
                                         \u003cth>Title\u003c/th>
                                         \u003cth style="width: 110px; text-align: left;">Type\u003c/th>
                                         \u003cth style="width: 110px; text-align: center;">Status\u003c/th>
@@ -3692,7 +3692,7 @@ function syncModalFooterLink(billLinkValue, amendmentLinkValue = null) {
         dom.modalLink,
         dom.modalLinkContainer,
         resolveExternalHref(billLinkValue),
-        'link'
+        'Link'
     );
     setFooterLinkVisible(
         dom.modalAmendmentLink || $('#modal-amendment-link'),

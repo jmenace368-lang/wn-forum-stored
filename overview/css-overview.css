@@ -2898,23 +2898,23 @@
         display: block;
     }
 
-    .wn-container a#modal-link.terminal-btn,
-    .wn-container a#modal-amendment-link.terminal-btn {
-        display: inline-block;
+    .wn-container .modal-box-close a.terminal-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         box-sizing: border-box;
+        margin: 0;
         text-decoration: none;
-        line-height: normal;
+        line-height: 1;
         vertical-align: middle;
-        border: 1px solid rgba(var(--wn-accent-rgb), 0.5);
-        border-bottom: 1px solid rgba(var(--wn-accent-rgb), 0.5);
-        color: var(--wn-accent);
+        appearance: none;
+        -webkit-appearance: none;
     }
 
-    .wn-container a#modal-link.terminal-btn:hover,
-    .wn-container a#modal-amendment-link.terminal-btn:hover {
+    .wn-container .modal-box-close a.terminal-btn:hover,
+    .wn-container .modal-box-close a.terminal-btn:focus-visible {
         filter: none;
         text-decoration: none;
-        border-bottom-color: var(--wn-accent);
     }
 
     .wn-container .bill-modal-shell {
@@ -3178,7 +3178,7 @@
         border: none;
         color: rgba(255, 255, 255, 0.55);
         cursor: pointer;
-        padding: 3px 12px;
+        padding: 5px 12px;
         line-height: 1;
         border-radius: 4px;
     }
@@ -3223,7 +3223,7 @@
     }
 
     .wn-container .legislation-bill-row+.legislation-amendment-row td {
-        border-top: 1px solid rgba(var(--wn-accent-rgb), 0.5);
+        border-top: 1px solid rgba(var(--wn-accent-rgb), 0.15);
     }
 
     .wn-container .legislation-amendment-row:has(+.legislation-bill-row) td {
