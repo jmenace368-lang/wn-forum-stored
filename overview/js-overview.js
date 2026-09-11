@@ -3999,27 +3999,63 @@ function showBillDetails(bill, options = {}) {
 }
 
 let billModalLastFocus = null;
-let billModalScrollLock = null;
+let billModalScrollGuardBound = false;
 
-function lockBillModalPageScroll() {
-    if (billModalScrollLock) return;
-    const html = document.documentElement;
-    const body = document.body;
-    billModalScrollLock = {
-        htmlOverflow: html.style.overflow,
-        bodyOverflow: body.style.overflow,
-    };
-    html.style.overflow = 'hidden';
-    body.style.overflow = 'hidden';
+function isVerticallyScrollable(el) {
+    if (!el || el.nodeType !== 1) return false;
+    const style = window.getComputedStyle(el);
+    const overflowY = style.overflowY;
+    if (overflowY !== 'auto' && overflowY !== 'scroll' && overflowY !== 'overlay') return false;
+    return el.scrollHeight > el.clientHeight + 1;
 }
 
-function unlockBillModalPageScroll() {
-    if (!billModalScrollLock) return;
-    const html = document.documentElement;
-    const body = document.body;
-    html.style.overflow = billModalScrollLock.htmlOverflow;
-    body.style.overflow = billModalScrollLock.bodyOverflow;
-    billModalScrollLock = null;
+function getBillModalScrollableAncestor(start) {
+    if (!dom.billModal) return null;
+    let el = start;
+    if (el && el.nodeType === 3) el = el.parentElement;
+    while (el && el !== dom.billModal) {
+        if (isVerticallyScrollable(el)) return el;
+        el = el.parentElement;
+    }
+    return isVerticallyScrollable(dom.billModal) ? dom.billModal : null;
+}
+
+function shouldBlockBillModalPageScroll(target, deltaY) {
+    if (!dom.billModal?.classList.contains('is-open')) return false;
+    if (!(target instanceof Node) || !dom.billModal.contains(target)) return true;
+
+    const scrollable = getBillModalScrollableAncestor(target);
+    if (!scrollable) return true;
+    if (!deltaY) return false;
+
+    const atTop = scrollable.scrollTop <= 0;
+    const atBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
+    return (deltaY < 0 && atTop) || (deltaY > 0 && atBottom);
+}
+
+function onBillModalWheelGuard(e) {
+    if (!shouldBlockBillModalPageScroll(e.target, e.deltaY)) return;
+    e.preventDefault();
+}
+
+function onBillModalTouchMoveGuard(e) {
+    if (!shouldBlockBillModalPageScroll(e.target, 0)) return;
+    // Block page scroll when the gesture is not inside a scrollable modal region.
+    if (!getBillModalScrollableAncestor(e.target)) e.preventDefault();
+}
+
+function bindBillModalScrollGuard() {
+    if (billModalScrollGuardBound) return;
+    document.addEventListener('wheel', onBillModalWheelGuard, { passive: false, capture: true });
+    document.addEventListener('touchmove', onBillModalTouchMoveGuard, { passive: false, capture: true });
+    billModalScrollGuardBound = true;
+}
+
+function unbindBillModalScrollGuard() {
+    if (!billModalScrollGuardBound) return;
+    document.removeEventListener('wheel', onBillModalWheelGuard, { capture: true });
+    document.removeEventListener('touchmove', onBillModalTouchMoveGuard, { capture: true });
+    billModalScrollGuardBound = false;
 }
 
 function openBillModal() {
@@ -4028,7 +4064,7 @@ function openBillModal() {
     dom.billModal.classList.add('is-open');
     dom.billModal.style.display = 'flex';
     dom.billModal.setAttribute('aria-hidden', 'false');
-    lockBillModalPageScroll();
+    bindBillModalScrollGuard();
     const focusTarget = dom.modalCloseBtn || dom.modalTabDetails || dom.billModal;
     requestAnimationFrame(() => focusTarget.focus?.());
 }
@@ -4039,7 +4075,7 @@ function closeModal() {
         dom.billModal.style.display = 'none';
         dom.billModal.setAttribute('aria-hidden', 'true');
     }
-    unlockBillModalPageScroll();
+    unbindBillModalScrollGuard();
     amendmentsContextBill = null;
     clearAmendmentDrillState();
     setBillModalTab('details', { syncAmendments: false });
